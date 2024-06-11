@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block 'conteudo' %}
+<div class="row pt-3">
+  <div class="col-md-6 grid-margin ">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-title">Entregas por Motorista</p>
+        <!-- <p class="font-weight-500">Número total de entregas realizadas por cada motorista dentro da semana.</p> -->
+        <div class="d-flex flex-wrap mb-5">
+          <div class="me-5 mt-3">
+            <p class="text-muted">Média de Entregas por Semana</p>
+            <h3 class="text-primary fs-30 font-weight-medium">12.3</h3> <!-- Ajuste conforme necessário -->
+          </div>
+          <div class="me-5 mt-3">
+            <p class="text-muted">Total de Entregas na Semana</p>
+            <h3 class="text-primary fs-30 font-weight-medium">140</h3> <!-- Ajuste conforme necessário -->
+          </div>
+          <div class="me-5 mt-3">
+            <p class="text-muted">Total de Motoristas na Semana</p>
+            <h3 class="text-primary fs-30 font-weight-medium">15</h3> <!-- Ajuste conforme necessário -->
+          </div>
+          <!-- <div class="me-5 mt-3">
+            <p class="text-muted">Motorista com Mais Entregas</p>
+            <h3 class="text-primary fs-30 font-weight-medium">João Silva</h3>
+          </div> -->
+        </div>
+        <canvas id="entregasPorVeiculo" width="462" height="231" style="display: block; box-sizing: border-box; height: 231px; width: 462px;"></canvas>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="col-md-6 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-title">Entregas no Decorrer do Ano</p>
+        <!-- <p class="font-weight-500">Número total de entregas realizadas por mês no decorrer do ano.</p> -->
+        <div class="d-flex flex-wrap mb-5">
+          <div class="me-5 mt-3">
+            <p class="text-muted">Média de Entregas por Mês</p>
+            <h3 class="text-primary fs-30 font-weight-medium">11.67</h3> <!-- Ajuste o valor conforme necessário -->
+          </div>
+          <div class="me-5 mt-3">
+            <p class="text-muted">Total de Entregas</p>
+            <h3 class="text-primary fs-30 font-weight-medium">140</h3> <!-- Ajuste o valor conforme necessário -->
+          </div>
+          <div class="me-5 mt-3">
+            <p class="text-muted">Motorista com Mais Entregas</p>
+            <h3 class="text-primary fs-30 font-weight-medium">João Silva</h3> <!-- Ajuste o nome conforme necessário -->
+          </div>
+        </div>
+        <canvas id="entregasNoPrazoPorFilial" width="462" height="231" style="display: block; box-sizing: border-box; height: 231px; width: 462px;"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4 mb-4 transparent">
+    <div class="card card-tale">
+      <div class="card-body">
+        <canvas id="atrasoVsEmDia"></canvas>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="col-md-3 mb-4 transparent">
+    <div class="card bg-primary">
+      <div class="card-body">
+        <canvas id="manifPorFilial"></canvas>
+      </div>
+    </div>
+  </div> -->
+  <div class="col-md-4 mb-4  transparent">
+    <div class="card bg-secondary">
+      <div class="card-body">
+        <canvas id="ctesEmitidos"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4  transparent">
+    <div class="card bg-warning">
+      <div class="card-body">
+        <canvas id="avarias"></canvas>
+      </div>
+    </div>
+  </div>
+</div>	
+{% endblock %}
+
+{% block 'js'%} 
+  <script src="{% static 'js/meusJS/home/graficos.js' %}"></script>
+  <script src="{% static 'js/meusJS/home/entregasPorFilial.js' %}"></script>
+  <script src="{% static 'js/meusJS/home/coletasPorFilial.js' %}"></script>
+  <script src="{% static 'js/meusJS/home/coletasEmAtrasoVsColetasEmDia.js' %}"></script>
+  <script src="{% static 'js/meusJS/home/cteEmitidos.js' %}"></script>
+  <script src="{% static 'js/meusJS/home/manifestoPorFilial.js' %}"></script>
+  <script src="{% static 'js/meusJS/home/avarias.js' %}"></script>
+
+{% endblock %}
+
