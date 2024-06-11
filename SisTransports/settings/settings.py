@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['3.92.199.208','127.0.0.1', 'sistransportslog.tech']
 
-CSRF_TRUSTED_ORIGINS = ['http://3.92.199.208','127.0.0.1', 'sistransportslog.tech']
+CSRF_TRUSTED_ORIGINS = ['http://3.92.199.208','127.0.0.1','sistransportslog.tech','http://sistransportslog.tech','https://sistransportslog.tech']
 
 # Application definition
 
