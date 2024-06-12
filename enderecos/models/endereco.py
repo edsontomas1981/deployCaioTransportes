@@ -8,6 +8,8 @@ class Enderecos (models.Model):
     bairro=models.CharField(max_length=30)
     cidade=models.CharField(max_length=50)
     uf=models.CharField(max_length=2)
+    lat=models.CharField(max_length=20,null=True)
+    lng=models.CharField(max_length=20,null=True)
     
     def to_dict(self):
         return {
@@ -18,5 +20,7 @@ class Enderecos (models.Model):
             'complemento': self.complemento,
             'bairro': self.bairro,
             'cidade': self.cidade,
-            'uf': self.uf
+            'uf': self.uf,
+            'lat': self.lat,
+            'lng': self.lng
         }

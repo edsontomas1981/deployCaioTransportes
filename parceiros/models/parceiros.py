@@ -4,7 +4,7 @@ from enderecos.models.endereco import Enderecos
 class Parceiros (models.Model):
     cnpj_cpf=models.CharField(max_length=18)
     raz_soc=models.CharField(max_length=50)
-    nome_fantasia=models.CharField(max_length=50)
+    nome_fantasia=models.CharField(max_length=50,null=True )
     insc_est=models.CharField(max_length=30)
     observacao=models.TextField()
     ativo=models.BooleanField(default=True)

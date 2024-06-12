@@ -19,7 +19,7 @@ class Parceiros():
     def createOrUpdate(cls, dados):
         cls.parceiro.cnpj_cpf = dados.get('cnpj')
         cls.parceiro.raz_soc = dados.get('razao')
-        cls.parceiro.nome_fantasia = dados.get('fantasia')
+        cls.parceiro.nome_fantasia = dados.get('fantasia',' ')
         cls.parceiro.insc_est = dados.get('inscr')
         cls.parceiro.observacao = dados.get('obs'," ")
         cls.parceiro.endereco_fk = dados.get('endereco_fk')
@@ -49,7 +49,7 @@ class Parceiros():
                 tabelas = TabelaFrete()
                 cls.parceiro.tabelasFrete = tabelas.get_tabelas_por_parceiro(cls.parceiro)
                 cls.parceiro.listaContatos = contatos.readContatos(cls.parceiro.id)
-                return cls.parceiro,200
+                return cls.parceiro
             else:
                 return None
         except Exception as e:

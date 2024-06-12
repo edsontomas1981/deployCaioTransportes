@@ -4,6 +4,8 @@
 from termcolor import colored
 from datetime import datetime
 import re
+import requests
+
 
 def checaCampos(request, **kwargs):
     camposVazios = []
@@ -114,3 +116,21 @@ def string_para_data(data_str):
         return data
     except ValueError:
         print("Formato de data inválido. Utilize o formato 'YYYY-MM-DD'.")
+
+
+def carrega_coordenadas(endereco):
+    url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "address": endereco,
+        "key": "AIzaSyCj2Tn5LiWlTUgevFKlQ7aUku8ZxYyjyXM"
+    }
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    if data["status"] == "OK":
+        location = data["results"][0]["geometry"]["location"]
+        latitude = location["lat"]
+        longitude = location["lng"]
+        return latitude, longitude
+    else:
+        return None

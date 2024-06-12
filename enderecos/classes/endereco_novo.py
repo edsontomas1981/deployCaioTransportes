@@ -11,7 +11,9 @@ class Enderecos:
                 complemento=dados['complemento'],
                 bairro=dados['bairro'],
                 cidade=dados['cidade'],
-                uf=dados['estado']
+                uf=dados['estado'],
+                lat = dados.get('lat'),
+                lng = dados.get('lng')
             )
             endereco.save()
 

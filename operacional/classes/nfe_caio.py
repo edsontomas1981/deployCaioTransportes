@@ -31,7 +31,7 @@ class NotaFiscalManager:
     @staticmethod
     def save_or_update(instancia, dados):
         chaves_necessarias = [
-            'chave_acesso', 'num_nf', 'data_emissao', 'natureza', 'volume', 
+            'chave_acesso', 'num_nf',  'natureza', 'volume', 
             'peso', 'valor_nf', 'usuario_cadastro'
         ]
 
@@ -39,8 +39,10 @@ class NotaFiscalManager:
             raise ValueError("Dados incompletos para salvar/atualizar nota fiscal.")
 
         instancia.chave_acesso = dados.get('chave_acesso')
+        instancia.remetente_fk = dados.get('remetente_fk')
+        instancia.destinatario_fk = dados.get('destinatario_fk')
         instancia.num_nf = dados.get('num_nf')
-        instancia.data_emissao = dados.get('data_emissao')
+        instancia.data_emissao = dados.get('data_emissao',"2024/01/01")
         instancia.natureza = dados.get('natureza')
         instancia.volume = dados.get('volume')
         instancia.peso = dados.get('peso')
@@ -51,14 +53,15 @@ class NotaFiscalManager:
 
     @classmethod
     def create_nota_fiscal(cls, dados):
-        try:
-            obj_nota_fiscal = Nota_fiscal_Caio_Transportes()
-            cls.save_or_update(obj_nota_fiscal, dados)
-            obj_nota_fiscal.data_cadastro = timezone.now()
-            obj_nota_fiscal.save()
-            return 200
-        except Exception as e:
-            return str(e)
+        print(dados)
+        # try:
+        obj_nota_fiscal = Nota_fiscal_Caio_Transportes()
+        cls.save_or_update(obj_nota_fiscal, dados)
+        obj_nota_fiscal.data_cadastro = timezone.now()
+        obj_nota_fiscal.save()
+        return 200
+        # except Exception as e:
+        #     return str(e)
 
     @classmethod
     def update_nota_fiscal(cls, id_nota_fiscal, dados):

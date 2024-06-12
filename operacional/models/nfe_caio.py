@@ -11,9 +11,9 @@ class Nota_fiscal_Caio_Transportes(models.Model):
     remetente_fk=models.ForeignKey(Parceiros, on_delete=models.CASCADE,related_name='remetente_nfe', null=True)
     destinatario_fk=models.ForeignKey(Parceiros, on_delete=models.CASCADE, related_name='destinatario_nfe', null=True)
     data_emissao = models.DateField()
-    natureza = models.CharField(max_length=100)
-    volume = models.CharField(max_length=20)
-    peso = models.CharField(max_length=20)
+    natureza = models.CharField(max_length=100,null=True)
+    volume = models.CharField(max_length=20,null=True)
+    peso = models.CharField(max_length=20,null=True)
     valor_nf = models.CharField(max_length=20)
     
     # Informações de usuário e data/hora
