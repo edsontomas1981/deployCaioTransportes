@@ -4,6 +4,11 @@ from django.http import JsonResponse
 from django.utils import timezone
 from operacional.models.nfe_caio import Nota_fiscal_Caio_Transportes
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
+
+class NotaFiscalNaoEncontrada(Exception):
+    """Exceção personalizada para indicar que a nota fiscal não foi encontrada."""
+
 
 class NotaFiscalManager:
     def __init__(self):
@@ -87,3 +92,17 @@ class NotaFiscalManager:
             return 200
         except Exception as e:
             return str(e)
+
+    @classmethod
+    def update_nota_fiscal_status(cls, id_nota_fiscal, new_status):
+        try:
+            obj_nota_fiscal = Nota_fiscal_Caio_Transportes.objects.get(id=id_nota_fiscal)
+        except Nota_fiscal_Caio_Transportes.DoesNotExist:
+            raise NotaFiscalNaoEncontrada(f"A nota fiscal com o ID {id_nota_fiscal} não foi encontrada.")
+
+        obj_nota_fiscal.status = new_status
+        obj_nota_fiscal.save()
+
+        return JsonResponse({"id": obj_nota_fiscal.id, "message": "Status atualizado com sucesso"}, status=204)
+
+

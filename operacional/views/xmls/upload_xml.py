@@ -115,7 +115,7 @@ def upload_xml(request):
                 }
 
                 # Data original
-                data_original = "2024-06-05T10:51:14-03:00"
+                data_original = data.get("ide").get('dhEmi') 
 
                 # Remover o fuso horário
                 data_sem_fuso = data_original.split("T")[0]
@@ -131,7 +131,7 @@ def upload_xml(request):
 
                 dados_nota_fiscal = {
                     'chave_acesso':data.get("infProt").get('chNFe'," "),
-                    'num_nf':data.get("ide").get('dhEmi'),
+                    'num_nf':data.get("ide").get('nNF'),
                     'data_emissao':data_formatada,
                     'natureza':data.get("ide").get('natOp'),
                     'volume':data.get("ide").get('volume'),

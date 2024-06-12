@@ -8,7 +8,7 @@ import json
 
 
 @login_required(login_url='/auth/entrar/')
-def update_nf (request):
+def update_status_nf (request):
     if request.method == 'GET':
         return JsonResponse({'status': "update"}) #Cadastro efetuado com sucesso
     elif request.method == 'POST':

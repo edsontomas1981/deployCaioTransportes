@@ -6,7 +6,8 @@ async function uploadXMLFiles() {
         alert('Por favor, selecione ao menos um arquivo XML.');
         return;
     }
-
+    var loadingElement = document.getElementById('loading'); // Elemento de loading
+    loadingElement.style.display = 'block'; // Mostra o loading
     const formData = new FormData();
     for (const file of files) {
         formData.append('xml_files', file);
@@ -16,7 +17,7 @@ async function uploadXMLFiles() {
         const response = await fetch('/operacional/upload_xml/', {
             method: 'POST',
             body: formData
-        });
+        }); 
 
         if (!response.ok) {
             throw new Error('Erro ao enviar arquivos XML.');
@@ -24,11 +25,16 @@ async function uploadXMLFiles() {
 
         const result = await response.json();
         let dadosTbody = prepara_dados(result)
+        document.getElementById("xmlFilesInput").value = "";
         popula_tbody_paginacao('paginacaoImportacaoNF','notasImportadas',dadosTbody,false,1,5,false,false)
-        alert(result.message);
+        msgOk(result.message);
+        loadingElement.style.display = 'none'; // Esconde o loading
+        
     } catch (error) {
         console.error('Erro:', error);
-        alert('Ocorreu um erro ao enviar os arquivos XML.');
+        msgErro('Ocorreu um erro ao enviar os arquivos XML.');
+        loadingElement.style.display = 'none'; // Esconde o loading
+        document.getElementById("xmlFilesInput").value = "";
     }
 }
 

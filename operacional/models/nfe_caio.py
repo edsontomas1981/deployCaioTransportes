@@ -15,6 +15,7 @@ class Nota_fiscal_Caio_Transportes(models.Model):
     volume = models.CharField(max_length=20,null=True)
     peso = models.CharField(max_length=20,null=True)
     valor_nf = models.CharField(max_length=20)
+    status = models.IntegerField(default=1)
     
     # Informações de usuário e data/hora
     usuario_cadastro = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='notas_fiscais_cadastradas_caio')
@@ -27,6 +28,8 @@ class Nota_fiscal_Caio_Transportes(models.Model):
             'id': self.id,
             'chave_acesso': self.chave_acesso,
             'num_nf': self.num_nf,
+            'remetente':self.remetente_fk.to_dict(),
+            'destinatario':self.destinatario_fk.to_dict(),
             'data_emissao': self.data_emissao.strftime('%Y-%m-%d') if self.data_emissao else None,
             'natureza': self.natureza,
             'volume': self.volume,
@@ -36,6 +39,7 @@ class Nota_fiscal_Caio_Transportes(models.Model):
             'data_cadastro': self.data_cadastro.strftime('%Y-%m-%d %H:%M:%S') if self.data_cadastro else None,
             'usuario_ultima_atualizacao': self.usuario_ultima_atualizacao.username if self.usuario_ultima_atualizacao else None,
             'data_ultima_atualizacao': self.data_ultima_atualizacao.strftime('%Y-%m-%d %H:%M:%S') if self.data_ultima_atualizacao else None,
+            'status':self.status,
         }
         
         return nota_fiscal

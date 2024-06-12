@@ -1,22 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
-from Classes.dtc import Dtc 
-from Classes.utils import dprint,dpprint,checaCamposJson
-from operacional.models.dtc import Dtc as MdlDtc
-from operacional.classes.nota_fiscal import Nota_fiscal_CRUD
-import json
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from Classes.utils import carrega_coordenadas
+from operacional.classes.nfe_caio import NotaFiscalManager
+from datetime import datetime
 
-
+@csrf_exempt
 @login_required(login_url='/auth/entrar/')
+@require_http_methods(["POST","GET"])
 def read_nfs_by_dtc (request):
-    if request.method == 'GET':
-        return JsonResponse({'status': "read nfs by dtc"}) #Cadastro efetuado com sucesso
-    elif request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        notas_fiscais = Nota_fiscal_CRUD()
-        nfs=notas_fiscais.carrega_nfs(data['idDtc'])
-        if len(nfs):
-            return JsonResponse({'status':200,'nfs':nfs}) #Cadastro efetuado com sucesso
-        else:
-            return JsonResponse({'status':300}) #Cadastro efetuado com sucesso
+    try:
+        notas_fiscais = NotaFiscalManager.lista_todas_notas_fiscais()
+        return JsonResponse({'status':200,'nfs':notas_fiscais})
+    except:
+        return JsonResponse({'status':400,'nfs':{},'message':'Erro Interno'})
