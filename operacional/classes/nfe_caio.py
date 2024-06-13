@@ -56,6 +56,7 @@ class NotaFiscalManager:
         instancia.usuario_ultima_atualizacao = get_user_model().objects.get(id=dados['usuario_cadastro'])
         instancia.data_ultima_atualizacao = timezone.now()
 
+
     @classmethod
     def create_nota_fiscal(cls, dados):
         print(dados)
