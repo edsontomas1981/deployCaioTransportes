@@ -102,6 +102,7 @@ from operacional.views.appMotorista.login_app import login_app_motorista
 
 from operacional.views.xmls.upload_xml import upload_xml
 from operacional.views.xmls.importar_xml import importar_xml
+from operacional.views.ocorrencias_nf import get_ocorrencias_nf
 
 
 

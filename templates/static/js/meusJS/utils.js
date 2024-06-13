@@ -529,3 +529,95 @@ const pegarTextoSelect=(idSelect)=>{
   return selectedText
 }
 
+class SelectHandler {
+  constructor() {}
+
+  // Método para popular o select com dados
+  populaSelect(id, dados) {
+      const select = document.getElementById(id);
+      if (!select) {
+          console.error(`Elemento com ID ${id} não encontrado.`);
+          return;
+      }
+
+      // Limpa as opções existentes
+      select.innerHTML = '';
+
+        // Adiciona novas opções
+      dados.forEach(dado => {
+          console.log(dado);  // Exibe cada objeto de dados no console
+          const option = document.createElement('option');
+          option.value = dado.value;
+          option.text = dado.text;
+          select.appendChild(option);
+      });
+  }
+
+  // Método para adicionar um event listener ao select
+  adicionaEventoMudanca(id, callback) {
+      const select = document.getElementById(id);
+      if (!select) {
+          console.error(`Elemento com ID ${id} não encontrado.`);
+          return;
+      }
+
+      select.addEventListener('change', (event) => {
+          callback(event.target.value);
+      });
+  }
+
+  // Método para obter o valor selecionado
+  obterValorSelecionado(id) {
+      const select = document.getElementById(id);
+      if (!select) {
+          console.error(`Elemento com ID ${id} não encontrado.`);
+          return null;
+      }
+
+      return select.value;
+  }
+
+  // Método para definir um valor selecionado
+  definirValorSelecionado(id, valor) {
+      const select = document.getElementById(id);
+      if (!select) {
+          console.error(`Elemento com ID ${id} não encontrado.`);
+          return;
+      }
+
+      select.value = valor;
+  }
+
+  // Método para limpar o select
+  limparSelect(id) {
+      const select = document.getElementById(id);
+      if (!select) {
+          console.error(`Elemento com ID ${id} não encontrado.`);
+          return;
+      }
+
+      select.innerHTML = '';
+  }
+}
+
+// // Exemplo de uso
+// const selectHandler = new SelectHandler();
+// const dados = [
+//   { value: '1', text: 'Opção 1' },
+//   { value: '2', text: 'Opção 2' },
+//   { value: '3', text: 'Opção 3' }
+// ];
+
+// selectHandler.populaSelect('meuSelect', dados);
+
+// selectHandler.adicionaEventoMudanca('meuSelect', (valorSelecionado) => {
+//   console.log(`Valor selecionado: ${valorSelecionado}`);
+// });
+
+// console.log(`Valor atual: ${selectHandler.obterValorSelecionado('meuSelect')}`);
+
+// selectHandler.definirValorSelecionado('meuSelect', '2');
+
+// selectHandler.limparSelect('meuSelect');
+
+

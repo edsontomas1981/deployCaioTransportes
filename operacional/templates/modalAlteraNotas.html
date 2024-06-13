@@ -12,20 +12,33 @@
                 <div class="card-body">
 
                 <div class="row">
-									<div class="btn-group col-sm-4" role="group" aria-label="Basic example">
-										<input type="text" class="form-control" id="txtIdNumNf">
-									</div>
-									<div class="btn-group col-sm-4" role="group" aria-label="Basic example">
+                  <input type="hidden" id="idNumNf">
+                  <div class="form-floating mb-3 col-sm-2">
+                    <input type="text" class="form-control" id="txtIdNumNf" placeholder="Nº Nota Fiscal">
+                    <label for="txtIdNumNf" class="ml-3">Nº Nota Fiscal</label>
+                  </div>
+                  <div class="form-floating mb-3 col-sm-5">
+                    <input type="text" class="form-control" id="txtModalRemetente" placeholder="Nº Nota Fiscal">
+                    <label for="txtModalRemetente" class="ml-3">Nº Nota Fiscal</label>
+                  </div>
+                  <div class="form-floating mb-3 col-sm-5">
+                    <input type="text" class="form-control" id="txtModalDestinatario" placeholder="Nº Nota Fiscal">
+                    <label for="txtModalDestinatario" class="ml-3"> Nº Nota Fiscal</label>
+                  </div>
+                  <h3 class="mt-4">Adicionar Ocorrências</h3>
+                  <div class="form-floating mb-3 col-sm-2">
+                    <input type="text" class="form-control" id="txtDataOcorrencia" placeholder="Nº Nota Fiscal">
+                    <label for="txtDataOcorrencia" class="ml-3">Data</label>
+                  </div>
+									<div class="col-sm-3 form-floating">
 										<select class="form-control form-select" id="cmbStatus">
-											<option value=1>Pendente</option>
-											<option value=2>Em Progresso</option>
-											<option value=3>Concluído</option>
-											<option value=4>Cancelado</option>
-											<option value=5>Em Espera</option>
 										</select>
-										<button type="button" class="btn btn-outline-primary"  id="modalNumNf" ><i class="fa fa-check" aria-hidden="true"></i>
-										</button>
 									</div>
+                  <div class="form-floating mb-3 col-sm-2">
+										<button type="button" class="btn btn-outline-primary"  id="btnNumNf" ><i class="fa fa-check" aria-hidden="true" style="height: 30px !important;"></i>
+										</button>
+                  </div>
+                  <h3 class="mt-4">Vincular ao Veículo</h3>
 									<div class="btn-group col-sm-4" role="group" aria-label="Basic example">
 										<select class="form-control form-select">
 											<option value=1>AAA-1A11</option>
@@ -40,26 +53,39 @@
                 </div>
 
 								<div id="paginacaoEventosNotas">
-									
 								</div>
-                  <div class="table-responsive">
-                    <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th>Nota Fiscal</th>
-                          <th>Remetente</th>
-                          <th>Destinatário</th>
-                          <th>Origem</th>
-                          <th>Destino</th>
-                          <th>Volumes</th>
-                          <th>Peso</th>
-                          <th>R$</th>
-                        </tr>
-                      </thead>
-                      <tbody id="eventosNotas">
+                  <div class="row">
+                    <div class="table-responsive col-sm-6">
+                      <h3 class="mt-4">Ocorrências</h3>
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Data</th>
+                            <th>Ocorrência</th>
+                            <th>Usuário</th>
+                            <th>Contato</th>
+                          </tr>
+                        </thead>
+                        <tbody id="eventosNotas">
 
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="table-responsive col-sm-6">
+                      <h3 class="mt-4">Saídas</h3>
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Data</th>
+                            <th>Placa</th>
+                            <th>Usuário</th>
+                          </tr>
+                        </thead>
+                        <tbody id="eventosNotas">
+
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -16,9 +16,8 @@ urlpatterns = [
     
     path('api/directions/', viewsOperacional.proxy_openrouteservice, name='proxy_openrouteservice'),
 
-
     path('createNf/',viewsOperacional.create_nf,name='createNf'),
-    path('readNf/',viewsOperacional.read_nf,name='readNf'),
+    path('readNfId/',viewsOperacional.read_nf,name='readNfId'),
     path('readNfs/',viewsOperacional.read_nfs_by_dtc,name='read_nfs_by_dtc'),
     path('updateNfStatusNf/',viewsOperacional.update_status_nf,name='updateNf'),
     path('deleteNf/',viewsOperacional.delete_nf,name='deleteNf'),
@@ -96,4 +95,6 @@ urlpatterns = [
 
     path('api/get_documentos/',viewsOperacional.get_documentos,name='get_documentos_app_moto' ),
     path('api/login_motorista/',viewsOperacional.login_app_motorista,name='login' ),
+
+    path('ocorrenciasNfs/',viewsOperacional.get_ocorrencias_nf.get_ocorrencias_nf,name='ocorrenciasNfs' ),
     ]
