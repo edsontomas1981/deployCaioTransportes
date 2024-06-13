@@ -35,14 +35,24 @@ const prepara_dados_nfs = (result)=>{
     return dados
 }
 
+document.getElementById('modalNumNf').addEventListener('click',async ()=>{
+    let response = await connEndpoint('/operacional/updateNfStatusNf/', {'idNf':document.getElementById('txtIdNumNf').value,
+                                                                        'numNf':document.getElementById('cmbStatus').value,
+    });
+
+    console.log(response)
+
+})
+
 const umBotao = (element)=>{
-    console.log(element)
+    openModal('modalAlteraNotas')
+    document.getElementById('txtIdNumNf').value=element
 }
 document.addEventListener('DOMContentLoaded',async ()=>{
     let botoes = {
         mostrar: {
             classe: "btn-success text-white",
-            texto: '<i class="fa fa-print" aria-hidden="true"></i>',
+            texto: '<i class="fa fa-window-restore" aria-hidden="true"></i>',
             callback: umBotao
         },
         excluir: {

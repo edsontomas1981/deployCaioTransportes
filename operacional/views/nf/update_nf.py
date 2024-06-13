@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from Classes.dtc import Dtc 
 from Classes.utils import dprint,dpprint,checaCamposJson
 from operacional.models.dtc import Dtc as MdlDtc
+from operacional.classes.nfe_caio import NotaFiscalManager
 import json
 
 
@@ -13,4 +14,6 @@ def update_status_nf (request):
         return JsonResponse({'status': "update"}) #Cadastro efetuado com sucesso
     elif request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
-        return JsonResponse({'status':300}) #Cadastro efetuado com sucesso
+        NotaFiscalManager.update_nota_fiscal_status(data.get('idNf'),data.get('numNf'))
+
+        return JsonResponse({'status':200}) #Cadastro efetuado com sucesso

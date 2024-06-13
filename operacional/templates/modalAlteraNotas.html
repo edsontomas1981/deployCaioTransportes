@@ -1,0 +1,71 @@
+<!-- Modal -->
+<div class="modal fade" id="modalAlteraNotas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Notas Fiscais</h5>
+          <button type="button" class="btn-close" onclick="closeModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+
+                <div class="row">
+									<div class="btn-group col-sm-4" role="group" aria-label="Basic example">
+										<input type="text" class="form-control" id="txtIdNumNf">
+									</div>
+									<div class="btn-group col-sm-4" role="group" aria-label="Basic example">
+										<select class="form-control form-select" id="cmbStatus">
+											<option value=1>Pendente</option>
+											<option value=2>Em Progresso</option>
+											<option value=3>Concluído</option>
+											<option value=4>Cancelado</option>
+											<option value=5>Em Espera</option>
+										</select>
+										<button type="button" class="btn btn-outline-primary"  id="modalNumNf" ><i class="fa fa-check" aria-hidden="true"></i>
+										</button>
+									</div>
+									<div class="btn-group col-sm-4" role="group" aria-label="Basic example">
+										<select class="form-control form-select">
+											<option value=1>AAA-1A11</option>
+											<option value=2>BBB-2B22</option>
+											<option value=3>CCC-3C33</option>
+											<option value=4>DDD-4D44</option>
+											<option value=5>EEE-5E55</option>
+										</select>
+										<button type="button" class="btn btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i>
+										</button>
+									</div>
+                </div>
+
+								<div id="paginacaoEventosNotas">
+									
+								</div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Nota Fiscal</th>
+                          <th>Remetente</th>
+                          <th>Destinatário</th>
+                          <th>Origem</th>
+                          <th>Destino</th>
+                          <th>Volumes</th>
+                          <th>Peso</th>
+                          <th>R$</th>
+                        </tr>
+                      </thead>
+                      <tbody id="eventosNotas">
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
