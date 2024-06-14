@@ -7,11 +7,9 @@ import json
 
 @login_required(login_url='/auth/entrar/')
 @require_http_methods(["POST","GET"])
-def get_ocorrencias_nf(request):
+def update_ocorrencia(request):
     try:
-        ocorrencias = TipoOcorrencias.to_dict_all()
-
-        return JsonResponse({'status':200,'tipos':ocorrencias})
+        return JsonResponse({'status':'update_ocorrencia'})
     
     except ValidationError as ve:
         return JsonResponse({'status': 400, 'error': f'Erro de validação: {str(ve)}'})

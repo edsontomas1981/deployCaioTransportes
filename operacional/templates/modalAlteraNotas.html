@@ -10,46 +10,49 @@
             <div class="grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-
                 <div class="row">
                   <input type="hidden" id="idNumNf">
-                  <div class="form-floating mb-3 col-sm-2">
+                  <div class=" mb-3 col-sm-2">
                     <input type="text" class="form-control" id="txtIdNumNf" placeholder="Nº Nota Fiscal">
-                    <label for="txtIdNumNf" class="ml-3">Nº Nota Fiscal</label>
                   </div>
-                  <div class="form-floating mb-3 col-sm-5">
+                  <div class=" mb-3 col-sm-5">
                     <input type="text" class="form-control" id="txtModalRemetente" placeholder="Nº Nota Fiscal">
-                    <label for="txtModalRemetente" class="ml-3">Nº Nota Fiscal</label>
                   </div>
-                  <div class="form-floating mb-3 col-sm-5">
-                    <input type="text" class="form-control" id="txtModalDestinatario" placeholder="Nº Nota Fiscal">
-                    <label for="txtModalDestinatario" class="ml-3"> Nº Nota Fiscal</label>
+                  <div class=" mb-3 col-sm-5">
+                    <input type="text" class="form-control" id="txtModalDestinatario" placeholder="Destinatário">
                   </div>
                   <h3 class="mt-4">Adicionar Ocorrências</h3>
-                  <div class="form-floating mb-3 col-sm-2">
-                    <input type="text" class="form-control" id="txtDataOcorrencia" placeholder="Nº Nota Fiscal">
-                    <label for="txtDataOcorrencia" class="ml-3">Data</label>
+                  <div class=" mb-3 col-sm-2">
+                    <input type="date" class="form-control" id="txtDataOcorrencia" placeholder="Data">
                   </div>
-									<div class="col-sm-3 form-floating">
+									<div class="col-sm-3 ">
 										<select class="form-control form-select" id="cmbStatus">
 										</select>
 									</div>
-                  <div class="form-floating mb-3 col-sm-2">
-										<button type="button" class="btn btn-outline-primary"  id="btnNumNf" ><i class="fa fa-check" aria-hidden="true" style="height: 30px !important;"></i>
+                  <div class=" mb-3 col-sm-5">
+                    <input type="text" class="form-control" id="txtObservacao" placeholder="Observação">
+                  </div>  
+                  <div class=" mb-3 col-sm-2">
+										<button type="button" class="btn btn-outline-primary"  id="btnNumNf" ><i class="fa fa-check" aria-hidden="true" ></i>
 										</button>
                   </div>
                   <h3 class="mt-4">Vincular ao Veículo</h3>
-									<div class="btn-group col-sm-4" role="group" aria-label="Basic example">
+                  <div class=" mb-3 col-sm-5">
+                    <input type="text" class="form-control" id="txtMotorista" placeholder="Motorista">
+                  </div>        
+									<div class="col-sm-5" role="group" aria-label="Basic example">
 										<select class="form-control form-select">
 											<option value=1>AAA-1A11</option>
 											<option value=2>BBB-2B22</option>
 											<option value=3>CCC-3C33</option>
 											<option value=4>DDD-4D44</option>
 											<option value=5>EEE-5E55</option>
-										</select>
-										<button type="button" class="btn btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i>
-										</button>
+  									</select>
 									</div>
+                  <div class="col-sm-2">
+                    <button type="button" class="btn btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                  </div>
                 </div>
 
 								<div id="paginacaoEventosNotas">

@@ -97,4 +97,8 @@ urlpatterns = [
     path('api/login_motorista/',viewsOperacional.login_app_motorista,name='login' ),
 
     path('ocorrenciasNfs/',viewsOperacional.get_ocorrencias_nf.get_ocorrencias_nf,name='ocorrenciasNfs' ),
+    path('add_ocorrencia/',viewsOperacional.adiciona_ocorrencia.add_ocorrencia, name="add_oco"),
+    path('del_ocorrencia/',viewsOperacional.delete_ocorrencia.delete_ocorrencia, name="delete_oco"),
+    path('update_ocorrencia/',viewsOperacional.update_ocorrencias.update_ocorrencia, name="update_oco"),
+
     ]

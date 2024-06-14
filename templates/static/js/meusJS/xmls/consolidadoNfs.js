@@ -54,6 +54,8 @@ const handlerNotaFiscal = async(element)=>{
     let response = await connEndpoint('/operacional/ocorrenciasNfs/', {});
     let dadosSelect = []
 
+    console.log(response)
+    
     response.tipos.forEach(dado =>{
         dadosSelect.push({value:dado.id,text:dado.ocorrencia})
     })

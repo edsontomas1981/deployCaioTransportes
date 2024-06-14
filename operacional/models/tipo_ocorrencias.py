@@ -1,6 +1,6 @@
 from django.db import models
 
-class OcorrenciaNotasFiscais(models.Model):
+class TipoOcorrencias(models.Model):
     # Informações específicas do tipo de carroceria
     ocorrencia = models.CharField(max_length=70)
 
