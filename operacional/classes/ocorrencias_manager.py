@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from operacional.models.ocorrencias_notas_fiscais import OcorrenciaNotasFiscais
@@ -26,6 +25,13 @@ class OcorrenciaNotasFiscaisManager:
             lista_ocorrencias.append(ocorrencia.to_dict())
         return lista_ocorrencias
 
+    @classmethod
+    def get_ocorrencias_by_nota_fiscal(cls, nota_fiscal_id):
+        try:
+            return OcorrenciaNotasFiscais.objects.filter(nota_fiscal_fk=nota_fiscal_id)
+        except OcorrenciaNotasFiscais.DoesNotExist:
+            return None
+
     @staticmethod
     def save_or_update(instancia, dados):
         chaves_necessarias = [
@@ -36,12 +42,16 @@ class OcorrenciaNotasFiscaisManager:
         if not all(chave in dados for chave in chaves_necessarias):
             raise ValueError("Dados incompletos para salvar/atualizar ocorrência.")
 
-        instancia.ocorrencia_fk = TipoOcorrencias.objects.get(id=dados['ocorrencia_fk'])
-        instancia.nota_fiscal_fk = Nota_fiscal_Caio_Transportes.objects.get(id=dados['nota_fiscal_fk'])
-        instancia.observacao = dados.get('observacao')
-        instancia.data = dados.get('data')
-        instancia.criado_por = get_user_model().objects.get(id=dados['criado_por'])
-        instancia.atualizado_por = get_user_model().objects.get(id=dados['atualizado_por'])
+        # instancia.ocorrencia_fk = TipoOcorrencias.objects.get(id=dados['ocorrencia_fk'])
+        # instancia.nota_fiscal_fk = Nota_fiscal_Caio_Transportes.objects.get(id=dados['nota_fiscal_fk'])
+        # instancia.observacao = dados.get('observacao')
+        # instancia.data = dados.get('data')
+        # instancia.criado_por = get_user_model().objects.get(id=dados['criado_por'])
+        # instancia.atualizado_por = get_user_model().objects.get(id=dados['atualizado_por'])
+        
+        if 'imagem_path' in dados:
+            instancia.imagem_path = dados['imagem_path']
+
         instancia.updated_at = timezone.now()
 
     @classmethod
@@ -76,3 +86,11 @@ class OcorrenciaNotasFiscaisManager:
             return 200
         except Exception as e:
             return str(e)
+
+    @classmethod
+    def buscar_todas_ocorrencias_por_id(cls, id):
+        return OcorrenciaNotasFiscais.objects.filter(id=id)
+
+    @classmethod
+    def buscar_ocorrencias_por_nota_fiscal(cls, nota_fiscal_id):
+        return OcorrenciaNotasFiscais.objects.filter(nota_fiscal_fk=nota_fiscal_id)
