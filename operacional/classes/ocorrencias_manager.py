@@ -35,14 +35,15 @@ class OcorrenciaNotasFiscaisManager:
     @staticmethod
     def save_or_update(instancia, dados):
         chaves_necessarias = [
-            'ocorrencia_fk', 'nota_fiscal_fk', 'observacao', 
-            'data', 'criado_por', 'atualizado_por'
+            # 'ocorrencia_fk', 'nota_fiscal_fk', 'observacao', 
+            # 'data', 'criado_por', 'atualizado_por'
         ]
 
         if not all(chave in dados for chave in chaves_necessarias):
             raise ValueError("Dados incompletos para salvar/atualizar ocorrência.")
 
-        # instancia.ocorrencia_fk = TipoOcorrencias.objects.get(id=dados['ocorrencia_fk'])
+        instancia.ocorrencia_fk = TipoOcorrencias.objects.get(id=dados['ocorrencia_fk'])
+        print(instancia.ocorrencia_fk)
         # instancia.nota_fiscal_fk = Nota_fiscal_Caio_Transportes.objects.get(id=dados['nota_fiscal_fk'])
         # instancia.observacao = dados.get('observacao')
         # instancia.data = dados.get('data')

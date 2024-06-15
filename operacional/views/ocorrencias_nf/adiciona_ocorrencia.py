@@ -45,6 +45,9 @@ def add_ocorrencia(request):
                 'imagem_path': imagem_path
             }
 
+            
+            print(dados)
+
             status = OcorrenciaNotasFiscaisManager.create_ocorrencia(dados)
             return JsonResponse({'status': status})
         except Exception as e:

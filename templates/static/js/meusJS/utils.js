@@ -522,7 +522,6 @@ const formataData=(dataString)=>{
   return dataFormatada
 }
 
-
 const pegarTextoSelect=(idSelect)=>{
   var selectElement = document.getElementById(idSelect);
   var selectedText = selectElement.options[selectElement.selectedIndex].text;
@@ -545,7 +544,6 @@ class SelectHandler {
 
         // Adiciona novas opções
       dados.forEach(dado => {
-          console.log(dado);  // Exibe cada objeto de dados no console
           const option = document.createElement('option');
           option.value = dado.value;
           option.text = dado.text;
@@ -600,24 +598,5 @@ class SelectHandler {
   }
 }
 
-// // Exemplo de uso
-// const selectHandler = new SelectHandler();
-// const dados = [
-//   { value: '1', text: 'Opção 1' },
-//   { value: '2', text: 'Opção 2' },
-//   { value: '3', text: 'Opção 3' }
-// ];
-
-// selectHandler.populaSelect('meuSelect', dados);
-
-// selectHandler.adicionaEventoMudanca('meuSelect', (valorSelecionado) => {
-//   console.log(`Valor selecionado: ${valorSelecionado}`);
-// });
-
-// console.log(`Valor atual: ${selectHandler.obterValorSelecionado('meuSelect')}`);
-
-// selectHandler.definirValorSelecionado('meuSelect', '2');
-
-// selectHandler.limparSelect('meuSelect');
 
 

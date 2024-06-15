@@ -7,14 +7,14 @@ var stateMapa = {estado:null}
 
 var listaLocais = []
 
-const iconeVermelho = '../../static/images/mapasIcones/pinVermelho.png'
-const iconeAzul = "../../static/images/mapasIcones/pinAzul.png"
-const iconeRoxo = "../../static/images/mapasIcones/pinRoxo.png"
-const iconeVerde = "../../static/images/mapasIcones/pinVerde.png"
-const iconePreto = "../../static/images/mapasIcones/pinPreto.png"
-const caminhao = "../../static/images/mapasIcones/caminhao2.png"
-const armazem = "../../static/images/mapasIcones/armazem.png"
-const local = "../../static/images/mapasIcones/loja.png"
+const iconeVermelho = '../../../../../static/images/mapasIcones/pinVermelho.png'
+const iconeAzul = "../../../../../static/images/mapasIcones/pinAzul.png"
+const iconeRoxo = "../../../../../static/images/mapasIcones/pinRoxo.png"
+const iconeVerde = "../../../../../static/images/mapasIcones/pinVerde.png"
+const iconePreto = "../../../../../static/images/mapasIcones/pinPreto.png"
+const caminhao = "../../../../../static/images/mapasIcones/caminhao2.png"
+const armazem = "../../../../../static/images/mapasIcones/armazem.png"
+const local = "../../../../../static/images/mapasIcones/loja.png"
 const iconeSize= [20, 20] // [largura, altura] do ícone em pixels
 
 
