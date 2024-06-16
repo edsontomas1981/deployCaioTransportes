@@ -544,6 +544,7 @@ class SelectHandler {
 
         // Adiciona novas opções
       dados.forEach(dado => {
+          console.log(dado)
           const option = document.createElement('option');
           option.value = dado.value;
           option.text = dado.text;

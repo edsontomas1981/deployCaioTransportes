@@ -1,13 +1,28 @@
+var responseNotaFiscal
 const getStatusLabel = (status) => {
+
     switch (status) {
         case 1:
-            return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso
+        return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso
+
+        case 'Entregue':
+            return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
         case 2:
             return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado
+        case 'Cancelado':
+            return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado  
+
+        case 'Pendente':
+            return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
         case 3:
             return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
+
+        case 'Em Progresso':
+            return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entrega
         case 4:
             return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entrega
+        case 'Em Espera':
+            return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial            
         case 5:
             return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial
         default:
@@ -16,6 +31,7 @@ const getStatusLabel = (status) => {
 };
 
 const prepara_dados_nfs = (result)=>{
+    console.log(result)
     let dados = []
     result.forEach(element => {
         const statusHTML = getStatusLabel(element.status);
@@ -37,6 +53,7 @@ const prepara_dados_nfs = (result)=>{
 
 
 const criaOcorrencias = async () => {
+
     // Obtenha os dados dos elementos do DOM
     let idNf = document.getElementById('idNumNf').value;
     let ocorrencia_fk = document.getElementById('ocorrencia_fk').value;
@@ -57,22 +74,27 @@ const criaOcorrencias = async () => {
         formData.append('imagem', imagemInput.files[0]);
     }
 
+
+    let camposObrigatorios = ['txtDataOcorrencia','ocorrencia_fk']
+    let campos = obterDadosDoFormulario('formModalNf',camposObrigatorios)
     
-    // Envie os dados e a imagem
-    let response = await fetch('/operacional/add_ocorrencia/', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken') // Assumindo que você está usando CSRF em seu Django
-        },
-        body: formData
-    });
-    
-    if (response.ok) {
-        let result = await response.json();
-        console.log(result);
-        populaPaginaNotasFiscais();
-    } else {
-        console.error('Erro ao atualizar a ocorrência');
+    if (campos){
+        // Envie os dados e a imagem
+        let response = await fetch('/operacional/add_ocorrencia/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken') // Assumindo que você está usando CSRF em seu Django
+            },
+            body: formData
+        });
+        
+        if (response.ok) {
+            let result = await response.json();
+            console.log(result);
+            populaPaginaNotasFiscais();
+        } else {
+            console.error('Erro ao atualizar a ocorrência');
+        }
     }
 };
 
@@ -92,53 +114,55 @@ function getCookie(name) {
     return cookieValue;
 }
 
+const prepara_dados_ocorrencias = (dados)=>{
+    let listaDados = []
+    dados.forEach(e => {
+        let statusHTML = getStatusLabel(e.status);
+        listaDados.push({
+                           id:e.id, 
+                           data:formataData(e.data),
+                           ocorrencia:e.ocorrencia.tipo_ocorrencia,
+                           usuario:e.criado_por,
+                           status:statusHTML,
+        })
+    });
+    return listaDados
+}
+
+function changeImage(newSrc) {
+    // Obtém o elemento img pelo ID
+    const imgElement = document.getElementById('imgComprovante');
+
+    // Altera o atributo src para a nova URL da imagem
+    imgElement.src = newSrc;
+}
+
+
+
+const modalComprovante = (element)=>{
+    console.log(element)
+    openModal('modalComprovante')
+    changeImageById(element)
+}
+
+const carrega_dados_ocorrencias = async()=>{
+    let botoes = {
+        mostrar: {
+            classe: "btn-info text-white",
+            texto: '<i class="fa fa-window-restore" aria-hidden="true"></i>',
+            callback: modalComprovante
+        },
+    }
+    let idNotaFiscal = document.getElementById('idNumNf')
+    responseNotaFiscal = await connEndpoint('/operacional/ocorrenciasNfs/', {'idNf':idNotaFiscal.value});
+    let dadosOcorrencias = prepara_dados_ocorrencias(responseNotaFiscal.ocorrencias)
+    popula_tbody_paginacao('paginacaoEventosNotas','eventosNotas',dadosOcorrencias,botoes,1,30,false,false)
+
+}
     
 
 document.getElementById('btnNumNf').addEventListener('click',async ()=>{
         criaOcorrencias()
-
-        // Crie um objeto FormData
-        // let formData = [];
-        // formData.push({'idNf':document.getElementById('idNumNf').value,
-        //     'numNf': document.getElementById('ocorrencia_fk').value});
-    
-        // Adicione outros campos necessários
-        // formData.append('ocorrencia_fk', document.getElementById('ocorrencia_fk').value);
-        // formData.append('nota_fiscal_fk', document.getElementById('nota_fiscal_fk').value);
-        // formData.append('observacao', document.getElementById('observacao').value);
-        // formData.append('data', document.getElementById('data').value);
-        // formData.append('criado_por', document.getElementById('criado_por').value);
-        // formData.append('atualizado_por', document.getElementById('atualizado_por').value);
-        
-        // console.log(formData)
-        // // Adicione o arquivo de imagem
-        // let imagemInput = document.getElementById('imagem');
-        // if (imagemInput.files.length > 0) {
-        //     formData.push({'imagem': imagemInput.files[0]});
-        // }
-        
-        // console.log(formData)
-
-        // let response = await connEndpoint('/operacional/updateNfStatusNf/', {'dados':formData});
-        // populaPaginaNotasFiscais()    
-        
-
-        // // Faça a requisição
-        // let response = await fetch('/operacional/updateNfStatusNf/', {
-        //     method: 'POST',
-        //     body: formData,
-        //     headers: {
-        //         'X-CSRFToken': getCookie('csrftoken') // Assumindo que você está usando CSRF em seu Django
-        //     }
-        // });
-    
-        // if (response.ok) {
-        //     let result = await response.json();
-        //     console.log(result);
-        //     populaPaginaNotasFiscais();
-        // } else {
-        //     console.error('Erro ao atualizar a ocorrência');
-        // }
 })
 
 const handlerNotaFiscal = async(element)=>{
@@ -153,18 +177,38 @@ const handlerNotaFiscal = async(element)=>{
     let response = await connEndpoint('/operacional/ocorrenciasNfs/', {});
     let dadosSelect = []
 
-    console.log(response)
+    carrega_dados_ocorrencias()
+
     
-    response.tipos.forEach(dado =>{
-        dadosSelect.push({value:dado.id,text:dado.ocorrencia})
+    response.ocorrencias.forEach(dado =>{
+        dadosSelect.push({value:dado.id,text:dado.ocorrencia.tipo_ocorrencia})
     })
     select = new SelectHandler()
     select.populaSelect('ocorrencia_fk',dadosSelect)
+    get_notas_selecionadas()
 }
 
 document.addEventListener('DOMContentLoaded',async ()=>{
     populaPaginaNotasFiscais()
 })
+
+function changeImageById(recordId) {
+
+    // Encontra o registro correspondente ao ID
+    const record = responseNotaFiscal.ocorrencias.find(record => record.id === recordId);
+
+    // Verifica se o registro foi encontrado
+    if (record) {
+        // Altera a imagem do elemento img
+        document.getElementById('imgComprovante').src = record.imagem_path;
+    } else {
+        alert('Registro não encontrado');
+    }
+}
+
+const get_notas_selecionadas = ()=>{
+    console.log(getSelectedRows())
+}
 
 const populaPaginaNotasFiscais = async()=>{
     let botoes = {
@@ -176,14 +220,30 @@ const populaPaginaNotasFiscais = async()=>{
         excluir: {
             classe: "btn-danger text-white",
             texto: '<i class="fa fa-print" aria-hidden="true"></i>',
-          //   callback: enviarMensagemWebSocket
+            callback: get_notas_selecionadas
         }
     };
 
     let response = await connEndpoint('/operacional/readNfs/', {});
     let dadosTbody = response.nfs
     let dadosParametrizados = prepara_dados_nfs(dadosTbody)
-    popula_tbody_paginacao('paginacaoTodasNfs','relatorioNfs',dadosParametrizados,botoes,1,20,false,false)
+    popula_tbody_paginacao('paginacaoTodasNfs','relatorioNfs',dadosParametrizados,botoes,1,20,true,false)
+
+}
+
+function getSelectedRows() {
+    const selectedRows = [];
+    const checkboxes = document.querySelectorAll('#relatorioNfs input[type="checkbox"]:checked');
+
+    checkboxes.forEach(checkbox => {
+        const row = checkbox.closest('tr');
+        const rowData = {
+            id:row.getAttribute('data-id'),
+        };
+        selectedRows.push(rowData);
+    });
+
+    return selectedRows;
 }
 
 

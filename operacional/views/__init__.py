@@ -109,6 +109,8 @@ from operacional.views.ocorrencias_nf import adiciona_ocorrencia
 from operacional.views.ocorrencias_nf import delete_ocorrencia
 from operacional.views.ocorrencias_nf import update_ocorrencias
 
+from operacional.views.manifesto_caio_transportes import add_nota_manifesto
+
 
 
 

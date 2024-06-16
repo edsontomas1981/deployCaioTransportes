@@ -8,22 +8,20 @@ from django.conf import settings
 import json
 import os
 
-
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 
 @login_required(login_url='/auth/entrar/')
 @require_http_methods(["POST","GET"])
 def add_ocorrencia(request):
-        try:
+        # try:
             data = request.POST
-            id_ocorrencia = data.get('idNf')
+            usuario = request.user
+            id_nf = data.get('idNf')
             ocorrencia_fk = data.get('ocorrencia_fk')
             nota_fiscal_fk = data.get('nota_fiscal_fk')
             observacao = data.get('observacao')
             data_ocorrencia = data.get('data')
-            criado_por = data.get('criado_por')
-            atualizado_por = data.get('atualizado_por')
             
             # Salve a imagem no disco
             if 'imagem' in request.FILES:
@@ -36,19 +34,19 @@ def add_ocorrencia(request):
 
             # Atualize a ocorrência no banco de dados
             dados = {
+                'id_nf':id_nf,
                 'ocorrencia_fk': ocorrencia_fk,
                 'nota_fiscal_fk': nota_fiscal_fk,
                 'observacao': observacao,
                 'data': data_ocorrencia,
-                'criado_por': criado_por,
-                'atualizado_por': atualizado_por,
+                'usuario': usuario,
                 'imagem_path': imagem_path
             }
 
             
-            print(dados)
+
 
             status = OcorrenciaNotasFiscaisManager.create_ocorrencia(dados)
             return JsonResponse({'status': status})
-        except Exception as e:
-            return JsonResponse({'status': 404, 'message': 'erro interno', 'error': str(e)})
+        # except Exception as e:
+        #     return JsonResponse({'status': 404, 'message': 'erro interno', 'error': str(e)})

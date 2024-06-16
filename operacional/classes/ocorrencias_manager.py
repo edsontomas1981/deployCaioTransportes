@@ -35,20 +35,17 @@ class OcorrenciaNotasFiscaisManager:
     @staticmethod
     def save_or_update(instancia, dados):
         chaves_necessarias = [
-            # 'ocorrencia_fk', 'nota_fiscal_fk', 'observacao', 
-            # 'data', 'criado_por', 'atualizado_por'
+            'ocorrencia_fk', 'nota_fiscal_fk', 
+            'data', 'usuario'
         ]
 
         if not all(chave in dados for chave in chaves_necessarias):
             raise ValueError("Dados incompletos para salvar/atualizar ocorrência.")
 
         instancia.ocorrencia_fk = TipoOcorrencias.objects.get(id=dados['ocorrencia_fk'])
-        print(instancia.ocorrencia_fk)
-        # instancia.nota_fiscal_fk = Nota_fiscal_Caio_Transportes.objects.get(id=dados['nota_fiscal_fk'])
-        # instancia.observacao = dados.get('observacao')
-        # instancia.data = dados.get('data')
-        # instancia.criado_por = get_user_model().objects.get(id=dados['criado_por'])
-        # instancia.atualizado_por = get_user_model().objects.get(id=dados['atualizado_por'])
+        instancia.nota_fiscal_fk = Nota_fiscal_Caio_Transportes.objects.get(id=dados['id_nf'])
+        instancia.observacao = dados.get('observacao')
+        instancia.data = dados.get('data')
         
         if 'imagem_path' in dados:
             instancia.imagem_path = dados['imagem_path']
@@ -59,6 +56,8 @@ class OcorrenciaNotasFiscaisManager:
     def create_ocorrencia(cls, dados):
         obj_ocorrencia = OcorrenciaNotasFiscais()
         cls.save_or_update(obj_ocorrencia, dados)
+        usuario = dados.get('usuario')
+        obj_ocorrencia.criado_por= get_user_model().objects.get(id=usuario.id)
         obj_ocorrencia.created_at = timezone.now()
         obj_ocorrencia.save()
         return 200

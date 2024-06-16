@@ -101,4 +101,5 @@ urlpatterns = [
     path('del_ocorrencia/',viewsOperacional.delete_ocorrencia.delete_ocorrencia, name="delete_oco"),
     path('update_ocorrencia/',viewsOperacional.update_ocorrencias.update_ocorrencia, name="update_oco"),
 
+    path('add_nota_manifesto/',viewsOperacional.add_nota_manifesto.add_nota_manifesto, name="add_nf"),
     ]

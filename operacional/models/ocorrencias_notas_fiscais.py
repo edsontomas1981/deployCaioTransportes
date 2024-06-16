@@ -15,3 +15,18 @@ class OcorrenciaNotasFiscais(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
+    def to_dict(self):
+        """Converte a instância do modelo para um dicionário Python."""
+
+        return {
+            'id': self.id,
+            'ocorrencia': self.ocorrencia_fk.to_dict() if self.ocorrencia_fk else None,
+            'nota_fiscal': self.nota_fiscal_fk.to_dict() if self.nota_fiscal_fk else None,
+            'observacao': self.observacao,
+            'data': self.data.strftime('%Y-%m-%d') if self.data else None,
+            'imagem_path': self.imagem_path,
+            'criado_por': self.criado_por.username if self.criado_por else None,
+            'atualizado_por': self.atualizado_por.username if self.atualizado_por else None,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
+        }
