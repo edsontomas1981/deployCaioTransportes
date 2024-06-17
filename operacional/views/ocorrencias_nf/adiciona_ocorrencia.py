@@ -14,7 +14,7 @@ from django.core.files.storage import default_storage
 @login_required(login_url='/auth/entrar/')
 @require_http_methods(["POST","GET"])
 def add_ocorrencia(request):
-        # try:
+        try:
             data = request.POST
             usuario = request.user
             id_nf = data.get('idNf')
@@ -48,5 +48,5 @@ def add_ocorrencia(request):
 
             status = OcorrenciaNotasFiscaisManager.create_ocorrencia(dados)
             return JsonResponse({'status': status})
-        # except Exception as e:
-        #     return JsonResponse({'status': 404, 'message': 'erro interno', 'error': str(e)})
+        except Exception as e:
+            return JsonResponse({'status': 404, 'message': 'erro interno', 'error': str(e)})

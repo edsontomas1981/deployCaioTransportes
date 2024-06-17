@@ -104,12 +104,14 @@ from operacional.views.xmls.upload_xml import upload_xml
 from operacional.views.xmls.importar_xml import importar_xml
 
 from operacional.views.ocorrencias_nf import get_ocorrencias_nf
-
 from operacional.views.ocorrencias_nf import adiciona_ocorrencia
 from operacional.views.ocorrencias_nf import delete_ocorrencia
 from operacional.views.ocorrencias_nf import update_ocorrencias
+from operacional.views.ocorrencias_nf import get_all_tipo_ocorrencias
 
 from operacional.views.manifesto_caio_transportes import add_nota_manifesto
+from operacional.views.manifesto_caio_transportes import romaneio
+
 
 
 

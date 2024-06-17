@@ -1,5 +1,6 @@
 var responseNotaFiscal
 const getStatusLabel = (status) => {
+    console.log(status)
 
     switch (status) {
         case 1:
@@ -117,7 +118,7 @@ function getCookie(name) {
 const prepara_dados_ocorrencias = (dados)=>{
     let listaDados = []
     dados.forEach(e => {
-        let statusHTML = getStatusLabel(e.status);
+        let statusHTML = getStatusLabel(e.ocorrencia.id);
         listaDados.push({
                            id:e.id, 
                            data:formataData(e.data),
@@ -131,7 +132,7 @@ const prepara_dados_ocorrencias = (dados)=>{
 
 function changeImage(newSrc) {
     // Obtém o elemento img pelo ID
-    const imgElement = document.getElementById('imgComprovante');
+    const imgElement = document.getElementById('imgEvidencia');
 
     // Altera o atributo src para a nova URL da imagem
     imgElement.src = newSrc;
@@ -139,9 +140,9 @@ function changeImage(newSrc) {
 
 
 
-const modalComprovante = (element)=>{
+const modalEvidencia = (element)=>{
     console.log(element)
-    openModal('modalComprovante')
+    openModal('modalEvidencia')
     changeImageById(element)
 }
 
@@ -150,11 +151,11 @@ const carrega_dados_ocorrencias = async()=>{
         mostrar: {
             classe: "btn-info text-white",
             texto: '<i class="fa fa-window-restore" aria-hidden="true"></i>',
-            callback: modalComprovante
+            callback: modalEvidencia
         },
     }
     let idNotaFiscal = document.getElementById('idNumNf')
-    responseNotaFiscal = await connEndpoint('/operacional/ocorrenciasNfs/', {'idNf':idNotaFiscal.value});
+    responseNotaFiscal = await connEndpoint('/operacional/ocorrenciasNfs/', {'idNumNf':idNotaFiscal.value});
     let dadosOcorrencias = prepara_dados_ocorrencias(responseNotaFiscal.ocorrencias)
     popula_tbody_paginacao('paginacaoEventosNotas','eventosNotas',dadosOcorrencias,botoes,1,30,false,false)
 
@@ -174,14 +175,13 @@ const handlerNotaFiscal = async(element)=>{
 
     document.getElementById('idNumNf').value=element
 
-    let response = await connEndpoint('/operacional/ocorrenciasNfs/', {});
+    let response = await connEndpoint('/operacional/getAllTipoOcorrencia/', {});
     let dadosSelect = []
 
     carrega_dados_ocorrencias()
-
-    
+    console.log(response.ocorrencias)    
     response.ocorrencias.forEach(dado =>{
-        dadosSelect.push({value:dado.id,text:dado.ocorrencia.tipo_ocorrencia})
+        dadosSelect.push({value:dado.id,text:dado.ocorrencia})
     })
     select = new SelectHandler()
     select.populaSelect('ocorrencia_fk',dadosSelect)
@@ -200,7 +200,7 @@ function changeImageById(recordId) {
     // Verifica se o registro foi encontrado
     if (record) {
         // Altera a imagem do elemento img
-        document.getElementById('imgComprovante').src = record.imagem_path;
+        document.getElementById('imgEvidencia').src = record.imagem_path;
     } else {
         alert('Registro não encontrado');
     }
