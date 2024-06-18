@@ -46,6 +46,19 @@ class ManifestoCaioTransportesManager:
         return 200,obj_manifesto
 
     @classmethod
+    def add_nota_manifesto(cls, nota_fiscal, manifesto_id):
+        # Obter o manifesto existente pelo ID
+        obj_manifesto = ManifestoCaioTransportes.objects.get(id=manifesto_id)
+
+        # Adicionar a nota fiscal à relação many-to-many
+        obj_manifesto.nota_fiscal_fk.add(nota_fiscal)
+
+        # Atualizar a data da última atualização
+        obj_manifesto.save()
+
+        return 200, obj_manifesto
+
+    @classmethod
     def update_manifesto(cls, id_manifesto, dados):
         try:
             if not ManifestoCaioTransportes.objects.filter(id=id_manifesto).exists():

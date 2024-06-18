@@ -35,6 +35,7 @@ from operacional.views.nf.update_nf import update_status_nf
 from operacional.views.nf.delete_nf import delete_nf
 from operacional.views.nf.read_nfs_by_dtc import read_nfs_by_dtc
 from operacional.views.nf.entrada_nfs import entrada_nfs
+from operacional.views.nf.get_nf_by_chave_acesso import read_nf_chave_acesso
 
 from operacional.views.proprietario.proprietario import proprietario
 from operacional.views.proprietario.create_proprietario import create_proprietario

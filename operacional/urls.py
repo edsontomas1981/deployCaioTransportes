@@ -21,6 +21,8 @@ urlpatterns = [
     path('readNfs/',viewsOperacional.read_nfs_by_dtc,name='read_nfs_by_dtc'),
     path('updateNfStatusNf/',viewsOperacional.update_status_nf,name='updateNf'),
     path('deleteNf/',viewsOperacional.delete_nf,name='deleteNf'),
+    path('entrada_nfs/',viewsOperacional.entrada_nfs,name='entrada_nfs'),
+    path('get_nf_chave_acesso/',viewsOperacional.read_nf_chave_acesso,name='read_nf_chave_acesso'),
 
     path('createCte/',viewsOperacional.create_cte,name='createCte'),
     path('delete_cte/',viewsOperacional.delete_cte,name='delete_cte'),
@@ -40,7 +42,6 @@ urlpatterns = [
     path('get_tipos_documentos_by_id/',viewsOperacional.get_tipo_documento_manifesto_by_id,name='get_tipo_documento_manifesto_by_id'),
 
 
-    path('entrada_nfs/',viewsOperacional.entrada_nfs,name='entrada_nfs'),
 
     path('motorista/',viewsOperacional.motorista,name='motorista'),    
     path('create_motorista/',viewsOperacional.create_motorista,name='create_motorista'),

@@ -20,6 +20,14 @@ class NotaFiscalManager:
             return Nota_fiscal_Caio_Transportes.objects.get(id=nota_fiscal_id)
         except Nota_fiscal_Caio_Transportes.DoesNotExist:
             return None
+    
+    @classmethod
+    def get_nota_fiscal_by_chave_acesso(cls, chave_acesso):
+        print(chave_acesso)
+        try:
+            return Nota_fiscal_Caio_Transportes.objects.get(chave_acesso=chave_acesso)
+        except Nota_fiscal_Caio_Transportes.DoesNotExist:
+            return None
 
     @classmethod
     def get_all_notas_fiscais(cls):
@@ -59,15 +67,14 @@ class NotaFiscalManager:
 
     @classmethod
     def create_nota_fiscal(cls, dados):
-        print(dados)
-        # try:
-        obj_nota_fiscal = Nota_fiscal_Caio_Transportes()
-        cls.save_or_update(obj_nota_fiscal, dados)
-        obj_nota_fiscal.data_cadastro = timezone.now()
-        obj_nota_fiscal.save()
-        return 200
-        # except Exception as e:
-        #     return str(e)
+        try:
+            obj_nota_fiscal = Nota_fiscal_Caio_Transportes()
+            cls.save_or_update(obj_nota_fiscal, dados)
+            obj_nota_fiscal.data_cadastro = timezone.now()
+            obj_nota_fiscal.save()
+            return 200
+        except Exception as e:
+            return str(e)
 
     @classmethod
     def update_nota_fiscal(cls, id_nota_fiscal, dados):
