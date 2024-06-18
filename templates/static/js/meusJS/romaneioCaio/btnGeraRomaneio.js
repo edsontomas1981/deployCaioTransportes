@@ -7,6 +7,4 @@ btnGeraRomaneio.addEventListener('click',async ()=>{
     if (response.status){
         document.getElementById('idRomaneio').value = response.manifesto.id
     }
-
-    
 })
