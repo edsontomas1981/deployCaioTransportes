@@ -54,10 +54,12 @@ class MotoristaManager:
         Args:
         - id_motorista (int): ID do motorista a ser lido.
         """
+        print(cpf_motorista)
         if not Motorista.objects.filter(parceiro_fk__cnpj_cpf=cpf_motorista).exists():
             return None
         
         self.obj_motorista = Motorista.objects.get(parceiro_fk__cnpj_cpf=cpf_motorista)
+        print(self.obj_motorista)
     
     @classmethod
     def read_motoristas(cls):

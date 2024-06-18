@@ -103,6 +103,7 @@ urlpatterns = [
     path('update_ocorrencia/',viewsOperacional.update_ocorrencias.update_ocorrencia, name="update_oco"),
 
     path('add_nota_manifesto/',viewsOperacional.add_nota_manifesto.add_nota_manifesto, name="add_nf"),
+    path('create_romaneio/',viewsOperacional.create_romaneio.create_romaneio, name="create_romaneio"),
     path('romaneio/',viewsOperacional.romaneio.romaneio, name="romaneio"),
 
     ]

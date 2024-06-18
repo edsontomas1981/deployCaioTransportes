@@ -8,3 +8,4 @@ btnBuscaMotoristas.addEventListener('click',()=>{
         openModal('mdlBuscaMotoristas')
     }
 })
+

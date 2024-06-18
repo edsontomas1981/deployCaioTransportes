@@ -19,19 +19,21 @@ class ManifestoCaioTransportesManager:
 
     @staticmethod
     def save_or_update(instancia, dados):
-        chaves_necessarias = ['motorista_fk', 'nota_fiscal_fk', 'usuario']
+        chaves_necessarias = ['motorista_fk','veiculo_fk']
 
         if not all(chave in dados for chave in chaves_necessarias):
             raise ValueError("Dados incompletos para salvar/atualizar manifesto.")
 
-        instancia.motorista_fk = Motorista.objects.get(id=dados['motorista_fk'])
+        instancia.motorista_fk = dados.get('motorista_fk')
+        instancia.veiculo_fk = dados.get('veiculo_fk')
+
         
-        # Assuming nota_fiscal_fk is a list of IDs
-        notas_fiscais = Nota_fiscal_Caio_Transportes.objects.filter(id__in=dados['nota_fiscal_fk'])
-        instancia.nota_fiscal_fk.set(notas_fiscais)
+        # # Assuming nota_fiscal_fk is a list of IDs
+        # notas_fiscais = Nota_fiscal_Caio_Transportes.objects.filter(id__in=dados['nota_fiscal_fk'])
+        # instancia.nota_fiscal_fk.set(notas_fiscais)
         
-        instancia.usuario_ultima_atualizacao = get_user_model().objects.get(id=dados['usuario'].id)
-        instancia.data_ultima_atualizacao = timezone.now()
+        # instancia.usuario_ultima_atualizacao = get_user_model().objects.get(id=dados['usuario'].id)
+        # instancia.data_ultima_atualizacao = timezone.now()
 
     @classmethod
     def create_manifesto(cls, dados):
@@ -41,7 +43,7 @@ class ManifestoCaioTransportesManager:
         obj_manifesto.usuario_cadastro = get_user_model().objects.get(id=usuario.id)
         obj_manifesto.data_cadastro = timezone.now()
         obj_manifesto.save()
-        return 200
+        return 200,obj_manifesto
 
     @classmethod
     def update_manifesto(cls, id_manifesto, dados):

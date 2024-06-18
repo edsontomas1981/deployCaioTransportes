@@ -111,6 +111,8 @@ from operacional.views.ocorrencias_nf import get_all_tipo_ocorrencias
 
 from operacional.views.manifesto_caio_transportes import add_nota_manifesto
 from operacional.views.manifesto_caio_transportes import romaneio
+from operacional.views.manifesto_caio_transportes import create_romaneio
+
 
 
 

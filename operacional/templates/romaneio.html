@@ -11,23 +11,23 @@
         <div class="col-sm-4">
           <div class="input-group mb-3">
             <input type="text" class="form-control" id="cpfMotoristaRomaneio" placeholder="Insira o cpf do motorista">
-            <input type="text" class="form-control" id="nomeMotoristaManifesto" placeholder="Insira o número do romaneio" disabled>
-            <button class="btn btn-info" type="button" id="button-addon2">Buscar</button>
+            <input type="text" class="form-control" id="nomeMotoristaRomaneio" placeholder="Insira o número do romaneio" disabled>
+            <a class="btn btn-primary btn-sm" id="btnBuscaMotoristasRomaneio" style="display: flex; justify-content: center; align-items: center;"><i class="fa fa-search" aria-hidden="true"></i> </a>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="cpfMotoristaManifesto" placeholder="Insira o cpf do motorista">
-            <input type="text" class="form-control" id="nomeMotoristaManifesto" placeholder="Insira o número do romaneio" disabled>
-            <button class="btn btn-info" type="button" id="button-addon2">Excluir</button>
+            <input type="text" class="form-control" id="placaVeiculoRomaneio" placeholder="Ex : AAA1A11 ">
+            <input type="text" class="form-control" id="modeloVeiculoRomaneio" placeholder="Modelo" disabled>
+            <a class="btn btn-primary btn-sm" id="btnBuscaVeiculosRomaneio" style="display: flex; justify-content: center; align-items: center;"><i class="fa fa-search" aria-hidden="true"></i> </a>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="mb-3 input-group">
             <input type="text" class="form-control" id="idRomaneio" placeholder="Insira o número do romaneio">
-            <button class="btn btn-primary" type="button" id="button-addon2">Buscar</button>
-            <button class="btn btn-warning" type="button" id="button-addon2">Novo</button>
-            <button class="btn btn-danger" type="button" id="button-addon2">Excluir</button>
+            <button class="btn btn-primary" type="button" id="btnBuscaRomaneio">Buscar</button>
+            <button class="btn btn-warning" type="button" id="btnGeraRomaneio">Novo</button>
+            <button class="btn btn-danger" type="button" id="btnExcluiRomaneio">Excluir</button>
           </div>
         </div>
 
@@ -44,12 +44,11 @@
           </tbody>
         </table>
       </div>
-
     </div>
 {% endblock %}
 
 {% block 'js'%} 
-
-<script src="{% static 'js/meusJS/romaneioCaio/buscaMotorista.js' %}"></script>
-
+  <script src="{% static 'js/meusJS/romaneioCaio/buscaVeiculo.js' %}"></script>
+  <script src="{% static 'js/meusJS/romaneioCaio/buscaMotorista.js' %}"></script>
+  <script src="{% static 'js/meusJS/romaneioCaio/btnGeraRomaneio.js' %}"></script>
 {% endblock %}

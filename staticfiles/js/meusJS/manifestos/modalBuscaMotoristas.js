@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     let modalMotorista = document.getElementById('mdlBuscaMotoristas') 
     modalMotorista.addEventListener('shown.bs.modal', async ()=> {
-
         let response  = await connEndpoint('/operacional/read_motoristas/', {})
         var dadosDosMotoristas= preparaDadosTbodyBuscaMotorista(response.motoristas)
 
-        console.log(dadosDosMotoristas)
         populaTbodyBuscaMotorista(dadosDosMotoristas)
 
         const inputBusca = document.getElementById('nomeMotorista');
@@ -42,7 +40,10 @@ const preparaDadosTbodyBuscaMotorista=(response)=>{
 
 const selecionaMotorista = async(element)=>{
     let response  = await connEndpoint('/operacional/read_motorista/', {'cpfMotorista':element})
+    if (stateModalMotorista == null){
     document.getElementById('cpfMotoristaManifesto').value = response.motorista.parceiro_fk.cnpj_cpf
     document.getElementById('nomeMotoristaManifesto').value = response.motorista.parceiro_fk.raz_soc
+    }
     closeModal()
+    stateModalMotorista = null
 }
