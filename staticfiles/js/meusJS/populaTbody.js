@@ -34,7 +34,7 @@ const createPaginationButton = (iconClass, page, totalPages, isActive = false, d
 
   li.appendChild(a);
   return li;
-  
+
 };
 
 /**
@@ -46,10 +46,7 @@ const createPaginationButton = (iconClass, page, totalPages, isActive = false, d
  * @param {number} [paginaAtual=1] - O número da página atual (padrão é 1).
  * @param {number} [itensPorPagina=10] - O número de itens a serem exibidos por página (padrão é 10).
  */
-const popula_tbody_paginacao = async (divParaNavegacao, id_tbody, dados, botoes = {}, paginaAtual = 1, itensPorPagina = 10,addCheckbox = true,dadosAdicionais = false) => {
-    console.log('Rotas:', dados);
-    console.log('Botoes Coletas:', botoes);
-
+const popula_tbody_paginacao = async (divParaNavegacao, id_tbody, dados, botoes = {}, paginaAtual = 1, itensPorPagina = 10, addCheckbox = true, dadosAdicionais = false) => {
   // Calcula o índice inicial e final dos dados a serem exibidos na página atual
   const startIndex = (paginaAtual - 1) * itensPorPagina;
   const endIndex = startIndex + itensPorPagina;
@@ -62,66 +59,66 @@ const popula_tbody_paginacao = async (divParaNavegacao, id_tbody, dados, botoes 
   // Limpa o conteúdo atual da tabela
   limpa_tabelas(id_tbody);
 
-  dadosPaginados.forEach(element => { 
-    var tr = document.createElement("tr");
-    tr.setAttribute('data-id', element.id);
-    if (addCheckbox){
-      // Adiciona o checkbox como o primeiro campo
-      var tdCheckbox = document.createElement("td");
-      var checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.name = "selecao";
-      tdCheckbox.appendChild(checkbox);
-      tr.appendChild(tdCheckbox);
-    }
-
-    // Loop através do dicionário de dados para criar as células <td> dinamicamente
-    for (const chave in element) {
-      if (element.hasOwnProperty(chave)) {
-        var td = document.createElement("td");
-
-        // Verificar se o valor associado à chave é um objeto (hashTable)
-        if (typeof element[chave] === 'object' && element[chave] !== null) {
-          // Se for um objeto, você pode adicionar a lógica desejada aqui
-          // td.textContent = 'É uma hashTable';
-        } else {
-          // Caso contrário, apenas atribua o valor normalmente
-          td.textContent = element[chave];
-        }
-
-        tr.appendChild(td);
+  dadosPaginados.forEach(element => {
+      var tr = document.createElement("tr");
+      tr.setAttribute('data-id', element.id);
+      if (addCheckbox) {
+          // Adiciona o checkbox como o primeiro campo
+          var tdCheckbox = document.createElement("td");
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "selecao";
+          tdCheckbox.appendChild(checkbox);
+          tr.appendChild(tdCheckbox);
       }
-    }
-  
-    // Adiciona botões personalizados se existirem na hash 'botoes'
-    for (const nomeBotao in botoes) {
-      if (botoes.hasOwnProperty(nomeBotao)) {
-        var tdBotao = document.createElement("td");
-        var btn = document.createElement("a");
-        btn.setAttribute('data-id', element.id);
 
-        Object.entries(element.dadosAdicionais).forEach(([key, value]) => {
-          btn.setAttribute('data-'+key, value);
-          // Aqui você pode fazer o que precisar com cada chave e valor
-        });
-        btn.id = element.id;
-        btn.className = "btn btn-sm " + botoes[nomeBotao].classe;
-        btn.innerHTML = botoes[nomeBotao].texto;
-  
-        if (botoes[nomeBotao].callback) {
-          // Use uma função anônima para passar o ID
-          btn.onclick = function() {
-            // Chame a função de callback passando o ID
-            botoes[nomeBotao].callback(element.id);
-          };
-        }
-        tdBotao.appendChild(btn);
-        tr.appendChild(tdBotao);
+      // Loop através do dicionário de dados para criar as células <td> dinamicamente
+      for (const chave in element) {
+          if (element.hasOwnProperty(chave)) {
+            if(chave != 'id'){
+              var td = document.createElement("td");
+              // Verificar se a chave é 'status' e adicionar o HTML
+              if (chave === 'status') {
+                  td.innerHTML = element[chave];  // Use innerHTML para renderizar HTML
+              } else if (typeof element[chave] === 'object' && element[chave] !== null) {
+                  // Se for um objeto, você pode adicionar a lógica desejada aqui
+                  // td.textContent = 'É uma hashTable';
+              } else {
+                  // Caso contrário, apenas atribua o valor normalmente
+                    td.textContent = element[chave];
+              }
+
+              tr.appendChild(td);
+            }
+          }
       }
-    }
-    tbody.appendChild(tr);
+
+      // Adiciona botões personalizados se existirem na hash 'botoes'
+      for (const nomeBotao in botoes) {
+          if (botoes.hasOwnProperty(nomeBotao)) {
+              var tdBotao = document.createElement("td");
+              var btn = document.createElement("a");
+              btn.setAttribute('data-id', element.id);
+
+              btn.id = element.id;
+              btn.className = "btn btn-sm " + botoes[nomeBotao].classe;
+              btn.innerHTML = botoes[nomeBotao].texto;
+
+              if (botoes[nomeBotao].callback) {
+                  // Use uma função anônima para passar o ID
+                  btn.onclick = function() {
+                      // Chame a função de callback passando o ID
+                      botoes[nomeBotao].callback(element.id);
+                  };
+              }
+              tdBotao.appendChild(btn);
+              tr.appendChild(tdBotao);
+          }
+      }
+      tbody.appendChild(tr);
   });
-  
+
+
 
   // Remove qualquer elemento de paginação existente
   var existingPagination = document.querySelector('.pagination');
@@ -191,7 +188,6 @@ const popula_tbody_paginacao = async (divParaNavegacao, id_tbody, dados, botoes 
  * });
  */
 const popula_tbody = (id_tbody, dicionario_dados, botoes = {},inicioChebox=true) => {
-  console.log(dicionario_dados)
 
   // Obtém a referência ao elemento tbody da tabela
   var tbody = document.getElementById(id_tbody);
@@ -233,7 +229,7 @@ const popula_tbody = (id_tbody, dicionario_dados, botoes = {},inicioChebox=true)
         btn.id = element.id;
         btn.className = "btn btn-sm " + botoes[nomeBotao].classe;
         btn.innerHTML = botoes[nomeBotao].texto;
-  
+
         if (botoes[nomeBotao].callback) {
           // Use uma função anônima para passar o ID
           btn.onclick = function() {
@@ -249,8 +245,8 @@ const popula_tbody = (id_tbody, dicionario_dados, botoes = {},inicioChebox=true)
   });
 };
 
-  
-  
+
+
 /**
  * Limpa o conteúdo de um corpo de tabela, removendo todas as linhas.
  * @param {string} id_tbody - O ID do corpo da tabela a ser limpo.
@@ -267,5 +263,3 @@ const limpa_tabelas = (id_tbody) => {
   const tbody = document.getElementById(id_tbody);
   tbody.innerHTML = "";
 };
-
-  
