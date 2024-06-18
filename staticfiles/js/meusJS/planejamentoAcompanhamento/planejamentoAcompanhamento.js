@@ -7,14 +7,14 @@ var stateMapa = {estado:null}
 
 var listaLocais = []
 
-const iconeVermelho = '../../static/images/mapasIcones/pinVermelho.png'
-const iconeAzul = "../../static/images/mapasIcones/pinAzul.png"
-const iconeRoxo = "../../static/images/mapasIcones/pinRoxo.png"
-const iconeVerde = "../../static/images/mapasIcones/pinVerde.png"
-const iconePreto = "../../static/images/mapasIcones/pinPreto.png"
-const caminhao = "../../static/images/mapasIcones/caminhao2.png"
-const armazem = "../../static/images/mapasIcones/armazem.png"
-const local = "../../static/images/mapasIcones/loja.png"
+const iconeVermelho = '/media/mapasIcones/pinVermelho.png'
+const iconeAzul = "/media/mapasIcones/pinAzul.png"
+const iconeRoxo = "/media/mapasIcones/pinRoxo.png"
+const iconeVerde = "/media/mapasIcones/pinVerde.png"
+const iconePreto = "/media/mapasIcones/pinPreto.png"
+const caminhao = "/media/mapasIcones/caminhao2.png"
+const armazem = "/media/mapasIcones/armazem.png"
+const local = "/media/mapasIcones/loja.png"
 const iconeSize= [20, 20] // [largura, altura] do ícone em pixels
 
 
@@ -40,7 +40,7 @@ const getLatLngStringToData = (locationString)=>{
         if (part.includes('lat:')) {
             // Extrair o valor de latitude após 'lat:'
             lat = parseFloat(part.split('lat:')[1]);
-        } 
+        }
         // Verificar se a parte contém a substring 'lng:'
         else if (part.includes('lng:')) {
             // Extrair o valor de longitude após 'lng:'
@@ -128,7 +128,7 @@ const connWs =()=>{
             }));
         }, 1000); // Delay de 1 segundo (1000 milissegundos)
     };
-  
+
     socket.onmessage = function(event) {
         console.log((event.data))
         var data = JSON.parse(event.data);
@@ -149,11 +149,11 @@ const connWs =()=>{
         mapa.alterarLocalizacaoDoMarcador(placaMarcador,placaMarcador.dados.lat,placaMarcador.dados.lng)
 
     };
-  
+
     socket.onclose = function(event) {
         console.log('Conexão WebSocket fechada.');
     };
-  
+
     socket.onerror = function(error) {
         console.error('Erro na conexão WebSocket:', error);
     };
@@ -166,14 +166,14 @@ document.addEventListener('DOMContentLoaded', async() => {
     const polygonCoordinates = geraDadosPoligonoZmrc()
 
     mapa = new MapaLeaflet('map', -23.47337308, -46.47320867,10.3);
-    
+
     let dadosMarcadores = {mapa:mapa,dados:dados,icone:local,iconeSize:iconeSize,callback:verificaEstado}
 
     let mapeamento = {lat: 0,lng: 1,motorista: 4,idDtc: 3,placa: 5,bairro: 6,volumes: 7,peso: 8};
     let dadosAdicionais = geraDadosAdicionais(dados,mapeamento)
 
     adicionaMarcadoresMapa(dadosMarcadores,dadosAdicionais)
-    
+
     let dadosVeiculos = geraDadosVeiculos()
     mapeamento = {lat: 0,lng: 1,motorista: 2,placa: 3,qtdeDctos: 4,dados:5};
     dadosAdicionais = geraDadosAdicionais(dadosVeiculos,mapeamento)
