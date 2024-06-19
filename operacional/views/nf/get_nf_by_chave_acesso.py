@@ -12,7 +12,6 @@ import json
 @login_required(login_url='/auth/entrar/')
 def read_nf_chave_acesso (request):
     if request.method == 'GET':
-            print('add nf')
             nota_fiscal = NotaFiscalManager.get_nota_fiscal_by_chave_acesso('4')
             ManifestoCaioTransportesManager.add_nota_manifesto(nota_fiscal,8)
             return JsonResponse({'status':200,'nota_fiscal':nota_fiscal.to_dict()}) #Cadastro efetuado com sucesso

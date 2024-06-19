@@ -36,11 +36,12 @@ const prepara_dados_nfs = (result)=>{
     let dados = []
     result.forEach(element => {
         const statusHTML = getStatusLabel(element.status);
+        console.log(element)
         dados.push({
                     id:element.id,
                     nf:element.num_nf,
                     remetente:truncateString(element.remetente.raz_soc,15),
-                    destinatario:truncateString(element.destinatario.raz_soc,15),
+                    destinatario: element.destinatario.raz_soc ? truncateString(element.destinatario.raz_soc, 15) : 'N/A',
                     origem:truncateString(element.remetente.endereco_fk.bairro,7),
                     destino:truncateString(element.destinatario.endereco_fk.bairro,7),
                     volume:element.volume,
@@ -225,7 +226,9 @@ const populaPaginaNotasFiscais = async()=>{
     };
 
     let response = await connEndpoint('/operacional/readNfs/', {});
+    console.log(response)
     let dadosTbody = response.nfs
+    // console.log(response)
     let dadosParametrizados = prepara_dados_nfs(dadosTbody)
     popula_tbody_paginacao('paginacaoTodasNfs','relatorioNfs',dadosParametrizados,botoes,1,20,true,false)
 

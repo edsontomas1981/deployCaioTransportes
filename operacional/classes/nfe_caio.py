@@ -20,10 +20,15 @@ class NotaFiscalManager:
             return Nota_fiscal_Caio_Transportes.objects.get(id=nota_fiscal_id)
         except Nota_fiscal_Caio_Transportes.DoesNotExist:
             return None
+    @classmethod
+    def get_nota_fiscal_by_nota_fiscal(cls, nota_fiscal):
+        try:
+            return Nota_fiscal_Caio_Transportes.objects.get(num_nf=nota_fiscal)
+        except Nota_fiscal_Caio_Transportes.DoesNotExist:
+            return None        
     
     @classmethod
     def get_nota_fiscal_by_chave_acesso(cls, chave_acesso):
-        print(chave_acesso)
         try:
             return Nota_fiscal_Caio_Transportes.objects.get(chave_acesso=chave_acesso)
         except Nota_fiscal_Caio_Transportes.DoesNotExist:
@@ -50,6 +55,9 @@ class NotaFiscalManager:
 
         if not all(chave in dados for chave in chaves_necessarias):
             raise ValueError("Dados incompletos para salvar/atualizar nota fiscal.")
+
+        if Nota_fiscal_Caio_Transportes.objects.get(chave_acesso=dados.get('chave_acesso')):
+            raise ValueError("Chave de acesso já cadastrada.")
 
         instancia.chave_acesso = dados.get('chave_acesso')
         instancia.remetente_fk = dados.get('remetente_fk')

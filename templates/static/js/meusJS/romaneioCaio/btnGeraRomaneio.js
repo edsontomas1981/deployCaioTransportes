@@ -5,6 +5,6 @@ btnGeraRomaneio.addEventListener('click',async ()=>{
     let placa = document.getElementById('placaVeiculoRomaneio')
     let response  = await connEndpoint('/operacional/create_romaneio/', {'placa':placa.value,'cpf':cpf.value});
     if (response.status){
-        document.getElementById('idRomaneio').value = response.manifesto.id
+        document.getElementById('numRomaneio').textContent = response.manifesto.id
     }
 })

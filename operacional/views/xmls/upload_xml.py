@@ -7,6 +7,7 @@ from enderecos.classes.endereco_novo import Enderecos
 from Classes.utils import carrega_coordenadas
 from operacional.classes.nfe_caio import NotaFiscalManager
 from datetime import datetime
+from Classes.utils import dprint
 
 
 @csrf_exempt
@@ -39,6 +40,12 @@ def upload_xml(request):
                 transp = infNFe.find('ns:transp', ns)
                 protNFe = root.find('ns:protNFe', ns)
 
+                cnpj = get_element_text(dest, 'ns:CNPJ', ns)
+                cpf = get_element_text(dest, 'ns:CPF', ns)
+                documento = cnpj if cnpj else cpf
+                inscr = get_element_text(dest, 'ns:IE', ns)
+                inscricao = inscr if inscr else 'ISENTO'
+              
                 data = {
                     'filename': xml_file.name,
                     'ide': {
@@ -87,7 +94,7 @@ def upload_xml(request):
                         'CRT': get_element_text(emit, 'ns:CRT', ns)
                     },
                     'dest': {
-                        'CNPJ': get_element_text(dest, 'ns:CNPJ', ns),
+                        'CNPJ': documento,
                         'xNome': get_element_text(dest, 'ns:xNome', ns),
                         'xLgr': get_element_text(dest, 'ns:enderDest/ns:xLgr', ns),
                         'nro': get_element_text(dest, 'ns:enderDest/ns:nro', ns),
@@ -97,10 +104,10 @@ def upload_xml(request):
                         'UF': get_element_text(dest, 'ns:enderDest/ns:UF', ns),
                         'CEP': get_element_text(dest, 'ns:enderDest/ns:CEP', ns),
                         'cPais': get_element_text(dest, 'ns:enderDest/ns:cPais', ns),
-                        'xPais': get_element_text(dest, 'ns:enderDest/ns:xPais', ns),
+                        'xPais': get_element_text(dest, 'ns:xPais', ns),
                         'fone': get_element_text(dest, 'ns:enderDest/ns:fone', ns),
                         'indIEDest': get_element_text(dest, 'ns:indIEDest', ns),
-                        'IE': get_element_text(dest, 'ns:IE', ns)
+                        'IE': inscricao
                     },
                     'infProt': {
                         'tpAmb': get_element_text(protNFe, 'ns:infProt/ns:tpAmb', ns),
@@ -125,9 +132,11 @@ def upload_xml(request):
 
                 # Formatar para YYYY-MM-DD
                 data_formatada = data_objeto.strftime('%Y-%m-%d')
+                
 
                 remetente = checa_parceiro_cadastrado(data.get("emit"))
                 destinatario = checa_parceiro_cadastrado(data.get("dest"))
+                    
 
                 dados_nota_fiscal = {
                     'chave_acesso':data.get("infProt").get('chNFe'," "),
@@ -149,7 +158,7 @@ def upload_xml(request):
             except ET.ParseError:
                 errors.append(f'Erro ao parsear o arquivo {xml_file.name}')
             except AttributeError:
-                errors.append(f'Elementos de CNPJ não encontrados no arquivo {xml_file.name}')
+                errors.append(f'Elementos de CNPJ ou CPF não encontrados no arquivo {xml_file.name}')
 
         if errors:
             return JsonResponse({'errors': errors}, status=400)
@@ -160,15 +169,15 @@ def upload_xml(request):
 
 
 def checa_parceiro_cadastrado(dados_parceiro):
-    dados_normalizados_para_cadastro = normaliza_dados_parceiro(dados_parceiro)
-    endereco = normaliza_dados_endereco(dados_parceiro)
-    if not Parceiros.readParceiro(dados_parceiro.get('CNPJ')):
+    documento = dados_parceiro.get('CNPJ')
+    if not Parceiros.readParceiro(documento):
+        endereco = normaliza_dados_endereco(dados_parceiro)
         endereco = cadastra_endereco(endereco)
+        dados_normalizados_para_cadastro = normaliza_dados_parceiro(dados_parceiro)
         dados_normalizados_para_cadastro['endereco_fk'] = endereco
         return cadastra_parceiro(dados_normalizados_para_cadastro)
     else:
-        return Parceiros.readParceiro(dados_parceiro.get('CNPJ'))
-
+        return Parceiros.readParceiro(documento)
 
 def cadastra_parceiro(dados_parceiro):
     return Parceiros.createParceiro(dados_parceiro)
@@ -179,11 +188,12 @@ def cadastra_endereco(dados_parceiro):
     
 
 def normaliza_dados_parceiro(dados_parceiro):
-    return{'cnpj':dados_parceiro.get('CNPJ'),
-           'razao':dados_parceiro.get('xNome'),
-           'fantasia':dados_parceiro.get('xFant'," "),
-           'inscr':dados_parceiro.get('IE','ISENTO'),
-           }
+    return {
+        'cnpj': dados_parceiro.get('CNPJ'),
+        'razao': dados_parceiro.get('xNome'),
+        'fantasia': dados_parceiro.get('xFant', " "),
+        'inscr': dados_parceiro.get('IE', 'ISENTO'),
+    }
 
 def normaliza_dados_endereco(dados_parceiro):
     stringEndereco = dados_parceiro.get('xLgr') + ' ' + dados_parceiro.get('xBairro') + " " + dados_parceiro.get('UF')
@@ -194,16 +204,17 @@ def normaliza_dados_endereco(dados_parceiro):
         lat = coords[0]
         lng = coords[1]
 
-    return{'cep':dados_parceiro.get('CEP'),
-            'logradouro':dados_parceiro.get('xLgr'),
-            'numero':dados_parceiro.get('nro'),
-            'complemento':dados_parceiro.get('xLgr'),
-            'bairro':dados_parceiro.get('xBairro'),
-            'cidade':dados_parceiro.get('xMun'),
-            'estado':dados_parceiro.get('UF'),
-            'lat':lat,
-            'lng':lng,
-            }
+    return {
+        'cep': dados_parceiro.get('CEP'),
+        'logradouro': dados_parceiro.get('xLgr'),
+        'numero': dados_parceiro.get('nro'),
+        'complemento': dados_parceiro.get('xLgr'),
+        'bairro': dados_parceiro.get('xBairro'),
+        'cidade': dados_parceiro.get('xMun'),
+        'estado': dados_parceiro.get('UF'),
+        'lat': lat,
+        'lng': lng,
+    }
 
 def get_element_text(parent_element, xpath, namespaces):
     element = parent_element.find(xpath, namespaces)

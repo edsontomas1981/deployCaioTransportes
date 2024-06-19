@@ -1,14 +1,13 @@
-let txtCpfVeiculo = document.getElementById('cpfMotorista')
+let txtCpfCadastroMotorista = document.getElementById('cpfMotoristaCadastro')
 
-txtCpfVeiculo.addEventListener('blur',async()=>{
-    alert(txtCpfVeiculo.value)
-    if (txtCpfVeiculo.value != ''){
-        if (validateDocumentNumber(txtCpfVeiculo.value)){
+txtCpfCadastroMotorista.addEventListener('blur',async()=>{
+    if (txtCpfCadastroMotorista.value != ''){
+        if (validateDocumentNumber(txtCpfCadastroMotorista.value)){
             limpaMotoristaVeiculo()
-            let response = await buscarParceiro(txtCpfVeiculo.value)
+            let response = await buscarParceiro(txtCpfCadastroMotorista.value)
             if (response.status == 200){
-                document.getElementById('nomeMotorista').value = response.parceiro.raz_soc
-                response= await connEndpoint('/operacional/read_motorista/', {'cpfMotorista':txtCpfVeiculo.value})
+                document.getElementById('nomeMotoristaCadastro').value = response.parceiro.raz_soc
+                response= await connEndpoint('/operacional/read_motorista/', {'cpfMotorista':txtCpfCadastroMotorista.value})
                 if (response.status >= 200 && response.status < 300 ){
                     console.log(response.motorista)
                     populaMotorista(response.motorista)
@@ -65,8 +64,8 @@ const limpaMotoristaVeiculo=()=>{
 }
 
 const limpaCnpjENomeMotorista=()=>{
-    document.getElementById('cpfMotorista').value=''
-    document.getElementById('nomeMotorista').value=''
+    document.getElementById('cpfMotoristaCadastro').value=''
+    document.getElementById('nomeMotoristaCadastro').value=''
 }
 
 

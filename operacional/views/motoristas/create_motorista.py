@@ -14,7 +14,7 @@ def create_motorista(request):
         data = json.loads(request.body.decode('utf-8'))
         data['usuario_cadastro'] = request.user 
 
-        required_fields = ['cpfMotorista','dataNascimento',
+        required_fields = ['cpfMotoristaCadastro','dataNascimento',
                             'filiacaoMae','numeroHabilitacao',
                             'registroHabilitacao','categoriaHabilitacao',
                             'dtToxicologico','dataEmissao','dataValidade',
@@ -22,6 +22,7 @@ def create_motorista(request):
         
         for field in required_fields:
             if field not in data or data[field] == '':
+                print('campo Faltantes')
                 return JsonResponse({'status': 422, 'error': f'O campo {field} é obrigatório.'})
         
         dados_formatados = prepare_dados_create(data)
@@ -47,7 +48,7 @@ def create_motorista(request):
 def prepare_dados_create(data):
 
     parceiro = Parceiros()
-    parceiro.readParceiro(data.get('cpfMotorista'))
+    parceiro.readParceiro(data.get('cpfMotoristaCadastro'))
 
     return{
         'parceiro_id':parceiro.parceiro.id,

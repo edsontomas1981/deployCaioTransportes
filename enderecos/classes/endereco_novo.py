@@ -24,6 +24,7 @@ class Enderecos:
             
     @classmethod
     def createEndereco(cls, dados):
+        print(dados)
         try:
             endereco = cls.createOrUpdate(dados)  # Armazena o objeto criado
             return endereco  # Retorna o objeto e código 200 (OK)

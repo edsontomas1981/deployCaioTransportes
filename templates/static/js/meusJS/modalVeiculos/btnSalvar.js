@@ -1,13 +1,15 @@
 let btnSalvar = document.getElementById('btnSalvaMotorista')
 
 btnSalvar.addEventListener('click',async ()=>{
-    let camposObrigatorios = ['cpfMotorista','dataNascimento',
+    alert('clicoi')
+    let camposObrigatorios = ['cpfMotoristaCadastro','dataNascimento',
                             'filiacaoMae',
                             'registroHabilitacao','categoriaHabilitacao',
                             'dataEmissao','dataValidade',
                             'dataPrimeiraHabilitacao']
 
     let dados=obterDadosDoFormulario('frmCadastroMotoristas',camposObrigatorios)
+    console.log(dados)
     let response = await connEndpoint('/operacional/create_motorista/',dados)
         console.log(response)
 
