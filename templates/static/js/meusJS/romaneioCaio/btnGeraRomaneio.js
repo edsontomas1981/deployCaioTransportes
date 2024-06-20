@@ -11,6 +11,8 @@ btnGeraRomaneio.addEventListener('click',async ()=>{
         let response  = await connEndpoint('/operacional/create_romaneio/', {'placa':placa.value,'cpf':cpf.value});
         if (response.status){
             document.getElementById('numRomaneio').textContent = response.manifesto.id
+            cpf.value = response.manifesto.id
+
         }
     }else {
         msgAlerta('Preencha os campos obrigatorios')

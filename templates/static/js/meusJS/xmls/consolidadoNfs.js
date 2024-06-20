@@ -1,42 +1,11 @@
 var responseNotaFiscal
-const getStatusLabel = (status) => {
-    console.log(status)
 
-    switch (status) {
-        case 1:
-        return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso
-
-        case 'Entregue':
-            return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
-        case 2:
-            return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado
-        case 'Cancelado':
-            return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado  
-
-        case 'Pendente':
-            return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
-        case 3:
-            return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
-
-        case 'Em Progresso':
-            return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entrega
-        case 4:
-            return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entrega
-        case 'Em Espera':
-            return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial            
-        case 5:
-            return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial
-        default:
-            return '<label class="badge badge-primary">Outros</label>';
-    }
-};
 
 const prepara_dados_nfs = (result)=>{
     console.log(result)
     let dados = []
     result.forEach(element => {
         const statusHTML = getStatusLabel(element.status);
-        console.log(element)
         dados.push({
                     id:element.id,
                     nf:element.num_nf,

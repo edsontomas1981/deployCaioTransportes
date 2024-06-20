@@ -22,20 +22,5 @@ class ManifestoCaioTransportes (models.Model):
             'id': self.id,
             'motorista_fk': self.motorista_fk.to_dict(),
             'veiculo_fk': self.veiculo_fk.to_dict(),
-            # 'nota_fiscal_fk': [
-            #     {
-            #         'id': nota_fiscal.id,
-            #         'numero': nota_fiscal.numero  # Assumindo que Nota_fiscal_Caio_Transportes tem um campo 'numero'
-            #     } for nota_fiscal in self.nota_fiscal_fk.all()
-            # ],
-            # 'usuario_cadastro': {
-            #     'id': self.usuario_cadastro.id,
-            #     'username': self.usuario_cadastro.username  # Assumindo que User tem um campo 'username'
-            # } if self.usuario_cadastro else None,
-            # 'usuario_ultima_atualizacao': {
-            #     'id': self.usuario_ultima_atualizacao.id,
-            #     'username': self.usuario_ultima_atualizacao.username  # Assumindo que User tem um campo 'username'
-            # } if self.usuario_ultima_atualizacao else None,
-            # 'data_cadastro': self.data_cadastro.isoformat() if self.data_cadastro else None,
-            # 'data_ultima_atualizacao': self.data_ultima_atualizacao.isoformat() if self.data_ultima_atualizacao else None,
+            'nota_fiscal_fk': [nota_fiscal.to_dict() for nota_fiscal in self.nota_fiscal_fk.all()],
         }

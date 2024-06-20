@@ -9,9 +9,11 @@ from operacional.classes.manifesto_caio_transportes import ManifestoCaioTranspor
 @login_required(login_url='/auth/entrar/')
 @require_http_methods(["POST",'GET'])
 def get_romaneio(request):
-    data = json.loads(request.body)
-
-    manifesto = ManifestoCaioTransportesManager.get_manifesto_by_id(data.get('idRomaneio')) 
-
-    return JsonResponse({'status': 200,'manifesto':manifesto.to_dict()})
+    try:
+        data = json.loads(request.body)
+        manifesto = ManifestoCaioTransportesManager.get_manifesto_by_id(data.get('idRomaneio')) 
+        return JsonResponse({'status':200,'manifesto':manifesto.to_dict()},status=200)
+    except:
+        return JsonResponse({'msg':'manifesto não localizado','status':404})
+    
 
