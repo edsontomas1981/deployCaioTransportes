@@ -445,7 +445,6 @@ const validarCamposObrigatorios = (dados, camposObrigatorios) => {
   });
 
   return camposFaltantes;
-
 };
 
 const obterDadosDoFormulario = (formularioId, camposObrigatorios=[]) => {

@@ -50,9 +50,6 @@
           <button class="btn btn-warning btn-sm" type="button" id="btnPrintRomaneio">
             <i class="fa fa-print" aria-hidden="true"></i>
           </button>
-          <button class="btn btn-danger btn-sm" type="button" id="btnLimpaRomaneio">
-            <i class="fa fa-eraser" aria-hidden="true"></i>
-          </button>
         </div>
         <div class="col-sm-12 mb-3">
           <table class="table table-striped table-sm">
@@ -93,6 +90,11 @@
 {% endblock %}
 
 {% block 'js'%} 
+  <script src="{% static 'js/meusJS/romaneioCaio/romaneio.js' %}"></script>
+  <script src="{% static 'js/meusJS/romaneioCaio/btnAddNf.js' %}"></script>
+  <script src="{% static 'js/meusJS/romaneioCaio/btnBuscaRomaneio.js' %}"></script>
+  <script src="{% static 'js/meusJS/romaneioCaio/btnExcluiRomaneio.js' %}"></script>
+  <script src="{% static 'js/meusJS/romaneioCaio/btnImprimiRomaneio.js' %}"></script>
   <script src="{% static 'js/meusJS/romaneioCaio/buscaVeiculo.js' %}"></script>
   <script src="{% static 'js/meusJS/romaneioCaio/buscaMotorista.js' %}"></script>
   <script src="{% static 'js/meusJS/romaneioCaio/btnGeraRomaneio.js' %}"></script>
