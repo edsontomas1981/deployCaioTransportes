@@ -20,7 +20,7 @@ def upload_xml(request):
         results = []
 
         for xml_file in xml_files:
-            # try:
+            try:
                 tree = ET.parse(xml_file)
                 root = tree.getroot()
 
@@ -136,7 +136,6 @@ def upload_xml(request):
 
                 remetente = checa_parceiro_cadastrado(data.get("emit"))
                 destinatario = checa_parceiro_cadastrado(data.get("dest"))
-                    
 
                 dados_nota_fiscal = {
                     'chave_acesso':data.get("infProt").get('chNFe'," "),
@@ -150,24 +149,25 @@ def upload_xml(request):
                     'remetente_fk':remetente,
                     'destinatario_fk':destinatario,
                 }
-                
+
                 NotaFiscalManager.create_nota_fiscal(dados_nota_fiscal)
 
                 results.append(data)
 
-            # except ET.ParseError:
-            #     errors.append(f'Erro ao parsear o arquivo {xml_file.name}')
-            # except AttributeError:
-            #     errors.append(f'Elementos de CNPJ ou CPF não encontrados no arquivo {xml_file.name}')
+            except ET.ParseError:
+                errors.append(f'Erro ao parsear o arquivo {xml_file.name}')
+            except AttributeError:
+                errors.append(f'Elementos de CNPJ ou CPF não encontrados no arquivo {xml_file.name}')
 
                 return JsonResponse({'message': 'Upload bem-sucedido'})
 
         if errors:
+            print(errors)
             return JsonResponse({'errors': errors}, status=400)
 
-    #     return JsonResponse({'message': 'Arquivos XML recebidos com sucesso.', 'data': results})
+        return JsonResponse({'message': 'Arquivos XML recebidos com sucesso.', 'data': results})
 
-    # return JsonResponse({'error': 'Nenhum arquivo XML encontrado.'}, status=400)
+    return JsonResponse({'error': 'Nenhum arquivo XML encontrado.'}, status=400)
 
 
 def checa_parceiro_cadastrado(dados_parceiro):

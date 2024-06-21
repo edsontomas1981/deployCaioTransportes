@@ -8,6 +8,18 @@ const romaneioExiste = ()=>{
 }
 
 const prepara_dados_tbody=(dados)=>{
+    let botoes={
+        alterar: {
+            classe: "btn-primary text-white",
+            texto: '<i class="fa fa-search" aria-hidden="true"></i>',
+            // callback: mostrarTabela
+          },
+        excluir: {
+            classe: "btn-danger text-white",
+            texto: '<i class="fa fa-trash" aria-hidden="true"></i>',
+            // callback: excluirTabelas
+          }
+      };
     let dadosPreparados = []
     dados.forEach(element => {
         let statusHTML = getStatusLabel(element.status);
@@ -16,7 +28,7 @@ const prepara_dados_tbody=(dados)=>{
             status:statusHTML
         })
     });
+    popula_tbody_paginacao('navegacaoNfsRomaneio','romaneioNotas',dadosPreparados,botoes,1,50,false,false)            
     return dadosPreparados
-
 }   
 
