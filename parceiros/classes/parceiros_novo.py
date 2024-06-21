@@ -10,7 +10,7 @@ class Parceiros():
             cls.parceiro = MdlParceiros()
             cls.createOrUpdate(dados)
             cls.parceiro.save()
-            return cls
+            return cls.parceiro
         except Exception as e:
             print(f"Erro ao criar parceiro: {e}")
             return None

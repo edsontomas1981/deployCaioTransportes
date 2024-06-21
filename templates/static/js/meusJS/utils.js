@@ -601,28 +601,27 @@ class SelectHandler {
 const getStatusLabel = (status) => {
   switch (status) {
       case 1:
-      return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso
-
-      case 'Entregue':
-          return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
+        return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial
+      case 'Em Espera':
+          return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial  
       case 2:
           return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado
       case 'Cancelado':
           return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado  
 
-      case 'Pendente':
-          return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
       case 3:
           return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
-
+      case 'Pendente':
+        return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
+  
       case 'Em Progresso':
           return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entrega
       case 4:
-          return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entrega
-      case 'Em Espera':
-          return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial            
+        return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entregareturn '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
+      case 'Entregue':
+        return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
       case 5:
-          return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial
+        return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
       default:
           return '<label class="badge badge-primary">Outros</label>';
   }

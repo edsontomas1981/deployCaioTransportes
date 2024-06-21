@@ -44,8 +44,8 @@ const prepara_dados = (result)=>{
         dados.push({nf:element.ide.nNF,
                     remetente:truncateString(element.emit.xNome,10),
                     destinatario:truncateString(element.dest.xNome,10),
-                    origem:truncateString(element.emit.xBairro,7),
-                    destino:truncateString(element.dest.xBairro,7),
+                    origem:truncateString(element.emit.xBairro,14),
+                    destino:truncateString(element.dest.xBairro,14),
                     volume:element.ide.volume,
                     peso:element.ide.peso,
                     valorNfe:element.ide.valorNF

@@ -14,6 +14,7 @@ from Classes.utils import dprint
 @require_http_methods(["POST", "GET"])
 def upload_xml(request):
     usuario = request.user
+    xml_erros = []
     if request.FILES.getlist('xml_files'):
         xml_files = request.FILES.getlist('xml_files')
         errors = []
@@ -150,24 +151,23 @@ def upload_xml(request):
                     'destinatario_fk':destinatario,
                 }
 
-                NotaFiscalManager.create_nota_fiscal(dados_nota_fiscal)
-
-                results.append(data)
+                if not NotaFiscalManager.create_nota_fiscal(dados_nota_fiscal):
+                    xml_erros.append({'arquivo':xml_file.name})
 
             except ET.ParseError:
                 errors.append(f'Erro ao parsear o arquivo {xml_file.name}')
             except AttributeError:
                 errors.append(f'Elementos de CNPJ ou CPF não encontrados no arquivo {xml_file.name}')
 
-                return JsonResponse({'message': 'Upload bem-sucedido'})
+                return JsonResponse({'message': 'Upload bem-sucedido','xml_nao_gravados':xml_erros})
 
         if errors:
-            print(errors)
-            return JsonResponse({'errors': errors}, status=400)
 
-        return JsonResponse({'message': 'Arquivos XML recebidos com sucesso.', 'data': results})
+            return JsonResponse({'errors': errors,'xml_nao_gravados':xml_erros}, status=400)
 
-    return JsonResponse({'error': 'Nenhum arquivo XML encontrado.'}, status=400)
+        return JsonResponse({'message': 'Arquivos XML recebidos com sucesso.', 'data': results,'xml_nao_gravados':xml_erros})
+
+    return JsonResponse({'error': 'Nenhum arquivo XML encontrado.','xml_nao_gravados':xml_erros}, status=400)
 
 
 def checa_parceiro_cadastrado(dados_parceiro):
@@ -182,7 +182,8 @@ def checa_parceiro_cadastrado(dados_parceiro):
         return Parceiros.readParceiro(documento)
 
 def cadastra_parceiro(dados_parceiro):
-    return Parceiros.createParceiro(dados_parceiro)
+    parceiro =  Parceiros.createParceiro(dados_parceiro)
+    return parceiro
     
 
 def cadastra_endereco(dados_parceiro):

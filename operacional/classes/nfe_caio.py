@@ -78,7 +78,6 @@ class NotaFiscalManager:
     def create_nota_fiscal(cls, dados):
         try:
             obj_nota_fiscal = Nota_fiscal_Caio_Transportes()
-
             cls.save_or_update(obj_nota_fiscal, dados)
             obj_nota_fiscal.data_cadastro = timezone.now()
             obj_nota_fiscal.save()
