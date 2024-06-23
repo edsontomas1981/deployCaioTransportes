@@ -1,7 +1,6 @@
 let btnSalvar = document.getElementById('btnSalvaMotorista')
 
 btnSalvar.addEventListener('click',async ()=>{
-    alert('clicoi')
     let camposObrigatorios = ['cpfMotoristaCadastro','dataNascimento',
                             'filiacaoMae',
                             'registroHabilitacao','categoriaHabilitacao',
