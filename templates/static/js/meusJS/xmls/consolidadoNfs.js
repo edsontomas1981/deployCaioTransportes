@@ -1,6 +1,5 @@
 var responseNotaFiscal
 
-
 const prepara_dados_nfs = (result)=>{
     let dados = []
     result.forEach(element => {
@@ -100,7 +99,6 @@ document.addEventListener('DOMContentLoaded',async ()=>{
     populaPaginaNotasFiscais()
 })
 
-
 const populaPaginaNotasFiscais = async()=>{
     let botoes = {
         mostrar: {
@@ -116,9 +114,7 @@ const populaPaginaNotasFiscais = async()=>{
     };
 
     let response = await connEndpoint('/operacional/readNfs/', {});
-    console.log(response)
     let dadosTbody = response.nfs
-    // console.log(response)
     let dadosParametrizados = prepara_dados_nfs(dadosTbody)
     popula_tbody_paginacao('paginacaoTodasNfs','relatorioNfs',dadosParametrizados,botoes,1,20,true,false)
 

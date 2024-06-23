@@ -24,10 +24,13 @@ async function uploadXMLFiles() {
         }
 
         const result = await response.json();
-        let dadosTbody = prepara_dados(result)
-        document.getElementById("xmlFilesInput").value = "";
-        popula_tbody_paginacao('paginacaoImportacaoNF','notasImportadas',dadosTbody,false,1,5,false,false)
+        console.log(result)
+        // let dadosTbody = prepara_dados(result)
+
+        // document.getElementById("xmlFilesInput").value = "";
+        // popula_tbody_paginacao('paginacaoImportacaoNF','notasImportadas',dadosTbody,false,1,5,false,false)
         msgOk(result.message);
+        closeModal()
         loadingElement.style.display = 'none'; // Esconde o loading
         
     } catch (error) {
