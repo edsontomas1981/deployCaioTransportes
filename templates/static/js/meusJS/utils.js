@@ -39,7 +39,7 @@ class Conexao {
           return result;
       } catch (error) {
           console.error(error);
-          alert("Erro interno!" + error);
+          msgErro("Erro interno!" + error);
       } finally {
           this.hideLoading(); // Esconde o loading após a requisição, mesmo se der erro
       }
@@ -605,26 +605,115 @@ const getStatusLabel = (status) => {
       case 'Em Espera':
           return '<label class="badge badge-warning">Em Espera</label>';// Aguadando no Armazem status inicial  
       case 2:
-          return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado
-      case 'Cancelado':
-          return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado  
-
+        return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entregareturn '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
+      case 'Em Progresso':
+        return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entrega
       case 3:
           return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
       case 'Pendente':
         return '<label class="badge badge-secondary">Pendente</label>';//Processo pendente por falta de documentação,pagamentos etc. 
-  
-      case 'Em Progresso':
-          return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entrega
       case 4:
-        return '<label class="badge badge-info">Em Progresso</label>';//Nf Alocada em veiculo para fazer a entregareturn '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
+        return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
       case 'Entregue':
         return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
       case 5:
-        return '<label class="badge badge-success">Entregue</label>'; //Processo Finalizado com Sucesso    
+        return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado
+      case 'Cancelado':
+        return '<label class="badge badge-danger">Cancelado</label>';//Processo Cancelado
+  
       default:
           return '<label class="badge badge-primary">Outros</label>';
   }
 };
+
+const get_notas_selecionadas = ()=>{
+  console.log(getSelectedRows())
+}
+
+function getSelectedRows() {
+  const selectedRows = [];
+  const checkboxes = document.querySelectorAll('#relatorioNfs input[type="checkbox"]:checked');
+
+  checkboxes.forEach(checkbox => {
+      const row = checkbox.closest('tr');
+      const rowData = {
+          id:row.getAttribute('data-id'),
+      };
+      selectedRows.push(rowData);
+  });
+
+  return selectedRows;
+}
+
+const prepara_dados_ocorrencias = (dados)=>{
+  let listaDados = []
+  dados.forEach(e => {
+      let statusHTML = getStatusLabel(e.ocorrencia.id);
+      listaDados.push({
+                         id:e.id, 
+                         data:formataData(e.data),
+                         ocorrencia:e.ocorrencia.tipo_ocorrencia,
+                         usuario:e.criado_por,
+                         status:statusHTML,
+      })
+  });
+  return listaDados
+}
+
+function changeImageById(recordId) {
+  // Encontra o registro correspondente ao ID
+  const record = responseNotaFiscal.ocorrencias.find(record => record.id === recordId);
+  // Verifica se o registro foi encontrado
+  if (record) {
+      // Altera a imagem do elemento img
+      document.getElementById('imgEvidencia').src = record.imagem_path;
+  } else {
+      alert('Registro não encontrado');
+  }
+}
+
+const modalEvidencia = (element)=>{
+  openModal('modalEvidencia')
+  changeImageById(element)
+}
+
+const carrega_dados_ocorrencias = async()=>{
+  let botoes = {
+      mostrar: {
+          classe: "btn-info text-white",
+          texto: '<i class="fa fa-window-restore" aria-hidden="true"></i>',
+          callback: modalEvidencia
+      },
+  }
+  let idNotaFiscal = document.getElementById('idNumNf')
+  responseNotaFiscal = await connEndpoint('/operacional/ocorrenciasNfs/', {'idNumNf':idNotaFiscal.value});
+  let dadosOcorrencias = prepara_dados_ocorrencias(responseNotaFiscal.ocorrencias)
+  popula_tbody_paginacao('paginacaoEventosNotas','eventosNotas',dadosOcorrencias,botoes,1,30,false,false)
+
+}
+
+const handlerNotaFiscal = async(element)=>{
+  let responseNotaFiscal = await connEndpoint('/operacional/readNfId/', {'idNf':element});
+  openModal('modalAlteraNotas')
+  document.getElementById('nota_fiscal_fk').value=responseNotaFiscal.nota_fiscal.num_nf
+  document.getElementById('txtModalRemetente').value=responseNotaFiscal.nota_fiscal.remetente.raz_soc
+  document.getElementById('txtModalDestinatario').value=responseNotaFiscal.nota_fiscal.destinatario.raz_soc
+
+  document.getElementById('idNumNf').value=element
+
+  let response = await connEndpoint('/operacional/getAllTipoOcorrencia/', {});
+  let dadosSelect = []
+
+  console.log(response)
+
+  carrega_dados_ocorrencias()
+
+  response.ocorrencias.forEach(dado =>{
+      dadosSelect.push({value:dado.id,text:dado.ocorrencia})
+  })
+  select = new SelectHandler()
+  select.populaSelect('ocorrencia_fk',dadosSelect)
+  get_notas_selecionadas()
+}
 
 

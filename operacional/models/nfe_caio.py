@@ -41,5 +41,18 @@ class Nota_fiscal_Caio_Transportes(models.Model):
             'data_ultima_atualizacao': self.data_ultima_atualizacao.strftime('%Y-%m-%d %H:%M:%S') if self.data_ultima_atualizacao else None,
             'status':self.status,
         }
-        
+    
         return nota_fiscal
+    
+    def to_dict_app_destinatario(self):
+
+        return{'idDtc':self.id,
+                'razao_social':self.destinatario_fk.raz_soc,
+                'endereco':self.destinatario_fk.endereco_fk.logradouro,
+                'numero':self.destinatario_fk.endereco_fk.numero,
+                'complemento':self.destinatario_fk.endereco_fk.complemento,
+                'bairro':self.destinatario_fk.endereco_fk.bairro,
+                'cidade':self.destinatario_fk.endereco_fk.cidade, 
+                'uf': self.destinatario_fk.endereco_fk.uf
+                }
+

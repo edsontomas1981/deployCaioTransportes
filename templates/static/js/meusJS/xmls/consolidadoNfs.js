@@ -2,7 +2,6 @@ var responseNotaFiscal
 
 
 const prepara_dados_nfs = (result)=>{
-    console.log(result)
     let dados = []
     result.forEach(element => {
         const statusHTML = getStatusLabel(element.status);
@@ -85,21 +84,6 @@ function getCookie(name) {
     return cookieValue;
 }
 
-const prepara_dados_ocorrencias = (dados)=>{
-    let listaDados = []
-    dados.forEach(e => {
-        let statusHTML = getStatusLabel(e.ocorrencia.id);
-        listaDados.push({
-                           id:e.id, 
-                           data:formataData(e.data),
-                           ocorrencia:e.ocorrencia.tipo_ocorrencia,
-                           usuario:e.criado_por,
-                           status:statusHTML,
-        })
-    });
-    return listaDados
-}
-
 function changeImage(newSrc) {
     // Obtém o elemento img pelo ID
     const imgElement = document.getElementById('imgEvidencia');
@@ -108,77 +92,14 @@ function changeImage(newSrc) {
     imgElement.src = newSrc;
 }
 
-
-
-const modalEvidencia = (element)=>{
-    console.log(element)
-    openModal('modalEvidencia')
-    changeImageById(element)
-}
-
-const carrega_dados_ocorrencias = async()=>{
-    let botoes = {
-        mostrar: {
-            classe: "btn-info text-white",
-            texto: '<i class="fa fa-window-restore" aria-hidden="true"></i>',
-            callback: modalEvidencia
-        },
-    }
-    let idNotaFiscal = document.getElementById('idNumNf')
-    responseNotaFiscal = await connEndpoint('/operacional/ocorrenciasNfs/', {'idNumNf':idNotaFiscal.value});
-    let dadosOcorrencias = prepara_dados_ocorrencias(responseNotaFiscal.ocorrencias)
-    popula_tbody_paginacao('paginacaoEventosNotas','eventosNotas',dadosOcorrencias,botoes,1,30,false,false)
-
-}
-    
-
 document.getElementById('btnNumNf').addEventListener('click',async ()=>{
         criaOcorrencias()
 })
-
-const handlerNotaFiscal = async(element)=>{
-    let responseNotaFiscal = await connEndpoint('/operacional/readNfId/', {'idNf':element});
-    openModal('modalAlteraNotas')
-    document.getElementById('nota_fiscal_fk').value=responseNotaFiscal.nota_fiscal.num_nf
-    document.getElementById('txtModalRemetente').value=responseNotaFiscal.nota_fiscal.remetente.raz_soc
-    document.getElementById('txtModalDestinatario').value=responseNotaFiscal.nota_fiscal.destinatario.raz_soc
-
-    document.getElementById('idNumNf').value=element
-
-    let response = await connEndpoint('/operacional/getAllTipoOcorrencia/', {});
-    let dadosSelect = []
-
-    carrega_dados_ocorrencias()
-    console.log(response.ocorrencias)    
-    response.ocorrencias.forEach(dado =>{
-        dadosSelect.push({value:dado.id,text:dado.ocorrencia})
-    })
-    select = new SelectHandler()
-    select.populaSelect('ocorrencia_fk',dadosSelect)
-    get_notas_selecionadas()
-}
 
 document.addEventListener('DOMContentLoaded',async ()=>{
     populaPaginaNotasFiscais()
 })
 
-function changeImageById(recordId) {
-
-    // Encontra o registro correspondente ao ID
-    const record = responseNotaFiscal.ocorrencias.find(record => record.id === recordId);
-
-    // Verifica se o registro foi encontrado
-    if (record) {
-        // Altera a imagem do elemento img
-        document.getElementById('imgEvidencia').src = record.imagem_path;
-    } else {
-        alert('Registro não encontrado');
-    }
-}
-
-const get_notas_selecionadas = ()=>{
-    console.log(getSelectedRows())
-}
 
 const populaPaginaNotasFiscais = async()=>{
     let botoes = {
@@ -203,20 +124,7 @@ const populaPaginaNotasFiscais = async()=>{
 
 }
 
-function getSelectedRows() {
-    const selectedRows = [];
-    const checkboxes = document.querySelectorAll('#relatorioNfs input[type="checkbox"]:checked');
 
-    checkboxes.forEach(checkbox => {
-        const row = checkbox.closest('tr');
-        const rowData = {
-            id:row.getAttribute('data-id'),
-        };
-        selectedRows.push(rowData);
-    });
-
-    return selectedRows;
-}
 
 
 

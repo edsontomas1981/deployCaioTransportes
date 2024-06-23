@@ -14,39 +14,36 @@ from django.core.files.storage import default_storage
 @login_required(login_url='/auth/entrar/')
 @require_http_methods(["POST","GET"])
 def add_ocorrencia(request):
-        try:
-            data = request.POST
-            usuario = request.user
-            id_nf = data.get('idNf')
-            ocorrencia_fk = data.get('ocorrencia_fk')
-            nota_fiscal_fk = data.get('nota_fiscal_fk')
-            observacao = data.get('observacao')
-            data_ocorrencia = data.get('data')
-            
-            # Salve a imagem no disco
-            if 'imagem' in request.FILES:
-                imagem = request.FILES['imagem']
-                image_path = os.path.join('ocorrencia_imagens', imagem.name)
-                path = default_storage.save(image_path, ContentFile(imagem.read()))
-                imagem_path = os.path.join(settings.MEDIA_URL, path)
-            else:
-                imagem_path = ''
+    try:
+        data = request.POST
+        usuario = request.user
+        id_nf = data.get('idNf')
+        ocorrencia_fk = data.get('ocorrencia_fk')
+        nota_fiscal_fk = data.get('nota_fiscal_fk')
+        observacao = data.get('observacao')
+        data_ocorrencia = data.get('data')
+        
+        # Salve a imagem no disco
+        if 'imagem' in request.FILES:
+            imagem = request.FILES['imagem']
+            image_path = os.path.join('ocorrencia_imagens', imagem.name)
+            path = default_storage.save(image_path, ContentFile(imagem.read()))
+            imagem_path = os.path.join(settings.MEDIA_URL, path)
+        else:
+            imagem_path = ''
 
-            # Atualize a ocorrência no banco de dados
-            dados = {
-                'id_nf':id_nf,
-                'ocorrencia_fk': ocorrencia_fk,
-                'nota_fiscal_fk': nota_fiscal_fk,
-                'observacao': observacao,
-                'data': data_ocorrencia,
-                'usuario': usuario,
-                'imagem_path': imagem_path
-            }
+        # Atualize a ocorrência no banco de dados
+        dados = {
+            'id_nf':id_nf,
+            'ocorrencia_fk': ocorrencia_fk,
+            'nota_fiscal_fk': nota_fiscal_fk,
+            'observacao': observacao,
+            'data': data_ocorrencia,
+            'usuario': usuario,
+            'imagem_path': imagem_path
+        }
 
-            
-
-
-            status = OcorrenciaNotasFiscaisManager.create_ocorrencia(dados)
-            return JsonResponse({'status': status})
-        except Exception as e:
-            return JsonResponse({'status': 404, 'message': 'erro interno', 'error': str(e)})
+        status = OcorrenciaNotasFiscaisManager.create_ocorrencia(dados)
+        return JsonResponse({'status': status})
+    except Exception as e:
+        return JsonResponse({'status': 404, 'message': 'erro interno', 'error': str(e)})

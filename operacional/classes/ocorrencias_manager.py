@@ -4,6 +4,10 @@ from django.contrib.auth import get_user_model
 from operacional.models.ocorrencias_notas_fiscais import OcorrenciaNotasFiscais
 from operacional.models.tipo_ocorrencias import TipoOcorrencias
 from operacional.models.nfe_caio import Nota_fiscal_Caio_Transportes
+from operacional.classes.nfe_caio import NotaFiscalManager
+from Classes.utils import dprint
+from datetime import datetime
+
 
 class OcorrenciaNotasFiscaisManager:
     @classmethod
@@ -34,9 +38,10 @@ class OcorrenciaNotasFiscaisManager:
 
     @staticmethod
     def save_or_update(instancia, dados):
+        dprint(dados)
         chaves_necessarias = [
             'ocorrencia_fk', 'nota_fiscal_fk', 
-            'data', 'usuario'
+            'data'
         ]
 
         if not all(chave in dados for chave in chaves_necessarias):
@@ -44,8 +49,13 @@ class OcorrenciaNotasFiscaisManager:
 
         instancia.ocorrencia_fk = TipoOcorrencias.objects.get(id=dados['ocorrencia_fk'])
         instancia.nota_fiscal_fk = Nota_fiscal_Caio_Transportes.objects.get(id=dados['id_nf'])
-        instancia.observacao = dados.get('observacao')
-        instancia.data = dados.get('data')
+        instancia.observacao = dados.get('observacao', ' ')
+
+        iso_date_string = "2024-06-23T00:06:33.539Z"
+        iso_date = datetime.fromisoformat(iso_date_string)
+        formatted_date = iso_date.strftime('%Y-%m-%d')
+
+        instancia.data = formatted_date
         
         if 'imagem_path' in dados:
             instancia.imagem_path = dados['imagem_path']
@@ -57,9 +67,24 @@ class OcorrenciaNotasFiscaisManager:
         obj_ocorrencia = OcorrenciaNotasFiscais()
         cls.save_or_update(obj_ocorrencia, dados)
         usuario = dados.get('usuario')
-        obj_ocorrencia.criado_por= get_user_model().objects.get(id=usuario.id)
+        
+        if not usuario == 'AnonymousUser':
+            try:
+                user_instance = get_user_model().objects.get(id=usuario.id)
+                obj_ocorrencia.criado_por = user_instance
+            except:
+                # Trate o caso em que o usuário não existe
+                # Por exemplo, lançar um erro ou lidar com isso de outra forma
+                # Aqui você pode decidir o que fazer se o usuário não existir
+                pass
+        
+        nota = NotaFiscalManager.get_nota_fiscal_by_id(dados.get('id_nf'))
+        nota.status = dados.get('ocorrencia_fk')
+        nota.save()
+        
         obj_ocorrencia.created_at = timezone.now()
         obj_ocorrencia.save()
+        
         return 200
 
     @classmethod

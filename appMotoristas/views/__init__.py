@@ -1,3 +1,4 @@
 from appMotoristas.views.get_documentos import get_documentos
 from appMotoristas.views.login_app import login_app_motorista
 from appMotoristas.views.localizacao_motorista import localizacao_motorista
+from appMotoristas.views.add_ocorrencia_nf import add_ocorrencia

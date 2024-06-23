@@ -107,4 +107,6 @@ urlpatterns = [
     path('create_romaneio/',viewsOperacional.create_romaneio.create_romaneio, name="create_romaneio"),
     path('romaneio/',viewsOperacional.romaneio.romaneio, name="romaneio"),
     path('get_romaneio/',viewsOperacional.get_manifesto.get_romaneio, name="get_romaneio"),
+    path('delete_nf_romaneio/',viewsOperacional.delete_nf_manifesto.delete_nota_manifesto, name="delete_nota_manifesto"),
     ]
+

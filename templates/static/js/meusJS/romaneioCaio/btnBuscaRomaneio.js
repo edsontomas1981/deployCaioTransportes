@@ -19,6 +19,11 @@ btnBusca.addEventListener('click',async()=>{
             let dados = prepara_dados_tbody(response.manifesto.nota_fiscal_fk)  
         }else{
             msgErro('Manifesto não encontrado !')
+            idRomaneio.textContent = ''
+            cpf.value = ''
+            nomeMotorista.value = ''
+            placa.value = ''
+            modelo.value = ''
         }   
     }
 })
