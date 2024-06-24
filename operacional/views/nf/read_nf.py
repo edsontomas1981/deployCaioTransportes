@@ -6,8 +6,9 @@ from Classes.utils import dprint,dpprint,checaCamposJson
 from operacional.models.dtc import Dtc as MdlDtc
 from operacional.classes.nfe_caio import NotaFiscalManager
 import json
+from django.views.decorators.csrf import csrf_exempt
 
-
+@csrf_exempt
 @login_required(login_url='/auth/entrar/')
 def read_nf (request):
     if request.method == 'GET':
