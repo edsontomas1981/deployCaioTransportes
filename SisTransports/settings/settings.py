@@ -28,9 +28,9 @@ SECRET_KEY = 'django-insecure-2l#n&^1q7w%f8n-p-6$vbpuci0b2e_$*y3fu&g)@(uw+r-@s(a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.92.199.208','127.0.0.1', 'sistransportslog.tech']
+ALLOWED_HOSTS = ['35.175.218.145','127.0.0.1', 'sistransportslog.tech']
 
-CSRF_TRUSTED_ORIGINS = ['http://3.92.199.208','127.0.0.1','sistransportslog.tech','http://sistransportslog.tech','https://sistransportslog.tech']
+CSRF_TRUSTED_ORIGINS = ['http://35.175.218.145','127.0.0.1','sistransportslog.tech','http://sistransportslog.tech','https://sistransportslog.tech']
 
 # Application definition
 
