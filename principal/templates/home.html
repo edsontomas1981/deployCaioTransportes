@@ -4,7 +4,7 @@
 
 {% block 'conteudo' %}
 <div class="row pt-3">
-    <div class="col-md-4 mb-4" style="max-width: 300px;">
+    <!-- <div class="col-md-4 mb-4" style="max-width: 300px;">
       <div class="card card-tale">
         <div class="card-body">
           <canvas id="atrasoVsEmDia"></canvas>
@@ -32,8 +32,8 @@
             <canvas id="ctesEmitidos"></canvas>
           </div>
         </div>
-      </div>    
-  </div>
+      </div>
+  </div> -->
   <div class="col-md-6 grid-margin ">
     <div class="card">
       <div class="card-body">
@@ -56,7 +56,7 @@
         <canvas id="entregasPorVeiculo" width="462" height="231" style="display: block; box-sizing: border-box; height: 231px; width: 462px;"></canvas>
       </div>
     </div>
-    
+
   </div>
 
   <div class="col-md-6 grid-margin">
@@ -82,13 +82,10 @@
       </div>
     </div>
   </div>
-
-  
-
-</div>	
+</div>
 {% endblock %}
 
-{% block 'js'%} 
+{% block 'js'%}
   <script src="{% static 'js/meusJS/home/graficos.js' %}"></script>
   <script src="{% static 'js/meusJS/home/entregasPorFilial.js' %}"></script>
   <script src="{% static 'js/meusJS/home/coletasPorFilial.js' %}"></script>
@@ -98,4 +95,3 @@
   <script src="{% static 'js/meusJS/home/avarias.js' %}"></script>
 
 {% endblock %}
-
